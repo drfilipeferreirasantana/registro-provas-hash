@@ -305,6 +305,15 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
       <span>fotos, prints, PDF, áudio, vídeo — qualquer formato, qualquer tamanho</span>
     </div>
     <input type="file" id="entradaArq" multiple class="oculto">
+    <div style="display:flex;gap:10px;align-items:flex-start;margin-top:14px">
+      <input type="checkbox" id="usar512" style="width:16px;height:16px;margin:3px 0 0;flex:0 0 auto">
+      <label for="usar512" style="margin:0;cursor:pointer;font-weight:400;color:var(--tinta)">
+        <strong style="font-weight:600">Calcular também o SHA-512</strong><br>
+        <span style="font-size:12.5px;color:var(--tinta-fraca)">Duas funções independentes: um
+        arquivo forjado teria de colidir nas duas ao mesmo tempo. Leva cerca de cinco vezes mais
+        tempo — reserve para a prova central da causa.</span>
+      </label>
+    </div>
     <div id="progresso" class="oculto">
       <p class="dica" id="progTexto" style="margin-top:14px"></p>
       <div class="barra"><i id="progBarra"></i></div>
@@ -387,6 +396,46 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
          <em>Documento</em>. Passe as duas pela aba "Preservar prova".</p>
       <p>Os hashes virão diferentes, e só uma delas trará metadados. A demonstração é sua,
          verificável, e vale mais em juízo do que qualquer afirmação de terceiro.</p>
+    </div>
+  </div>
+
+  <div class="cartao">
+    <h2>O que altera, e o que não altera, o hash</h2>
+    <p class="sub">Confusão corrente, que leva a descartar prova boa — ou a confiar em prova ruim.</p>
+    <div class="dupla">
+      <div>
+        <p style="font:600 14px var(--sans);color:var(--ok);margin:0 0 8px">NÃO altera</p>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.8">
+          <li>Renomear o arquivo</li>
+          <li>Copiar para outra pasta, pendrive ou nuvem</li>
+          <li>Mudar a data de modificação do sistema</li>
+          <li>Abrir apenas para ver ou ouvir</li>
+          <li>Mudar de computador</li>
+        </ul>
+        <p class="dica" style="margin-top:10px">O hash é calculado sobre o <strong>conteúdo</strong>
+           do arquivo. Nome e datas do sistema ficam fora dele.</p>
+      </div>
+      <div>
+        <p style="font:600 14px var(--sans);color:var(--erro);margin:0 0 8px">ALTERA</p>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.8">
+          <li>Abrir num editor e salvar</li>
+          <li>Cortar, girar ou "melhorar" imagem</li>
+          <li>Converter de formato</li>
+          <li>Comprimir ou reduzir tamanho</li>
+          <li>Enviar como foto ou vídeo por aplicativo</li>
+          <li>Alterar um único byte, seja qual for</li>
+        </ul>
+        <p class="dica" style="margin-top:10px">Qualquer destes produz resumo
+           <strong>inteiramente</strong> distinto — não parecido, distinto.</p>
+      </div>
+    </div>
+    <div class="aviso bom">
+      <strong>Consequência prática</strong>
+      <p>Se o cliente renomeou o arquivo para organizar, <strong>não há problema algum</strong>:
+         o hash continua o mesmo, e a prova segue íntegra. Guarde o nome original quando souber,
+         mas não descarte a prova por isso.</p>
+      <p>O que de fato rompe a integridade é mexer no conteúdo — e é por isso que o envio por
+         aplicativo, que recomprime, merece a atenção do quadro acima.</p>
     </div>
   </div>
 
@@ -540,9 +589,16 @@ Qualquer dúvida, me chame que eu explico de novo.</pre>
       <li><strong>Assinar o PDF com seu certificado ICP-Brasil</strong>
         <p>No seu assinador habitual. Pelo painel ONR: "Novo documento", envie o PDF do termo,
            assine com o certificado <em>AC SyngularID Múltipla</em>. Baixe o PDF assinado.</p></li>
+      <li><strong>Pedir carimbo do tempo, se o assinador oferecer</strong>
+        <p>É o ponto mais frágil de todo o sistema, e o mais barato de reforçar. Sem carimbo, a
+           data da assinatura é a do relógio do seu computador — e relógio se ajusta. Com carimbo
+           de uma Autoridade de Carimbo do Tempo da ICP-Brasil, a data passa a ser atestada por
+           terceiro credenciado. Procure no assinador por "carimbo do tempo", "timestamp" ou
+           assinatura no padrão <em>PAdES-T</em>.</p></li>
       <li><strong>Validar a assinatura</strong>
         <p>No próprio ONR, em "Validar documento". Confira: seu nome, seu CPF, a autoridade
-           certificadora, e se o certificado estava <em>vigente na data da assinatura</em>.</p></li>
+           certificadora, se o certificado estava <em>vigente na data da assinatura</em>, e se
+           há carimbo do tempo.</p></li>
       <li><strong>Selar: calcular o hash do PDF já assinado</strong>
         <p>Aqui embaixo. Este é o hash que fecha tudo e vai ao registro público.</p></li>
     </ol>
@@ -906,10 +962,10 @@ Qualquer dúvida, me chame que eu explico de novo.</pre>
            empresa alguma. Patamar adequado para o volume ordinário de prova digital.</p>
       </li>
       <li>
-        <strong>Termo + assinatura ICP-Brasil <span class="forca f-alta">boa</span></strong>
-        <p>Autoria e integridade demonstradas; a data repousa no carimbo da assinatura.
-           Suficiente na maioria dos casos. Use o seu certificado de advogado —
-           você já o tem.</p>
+        <strong>Termo + assinatura ICP-Brasil com carimbo do tempo <span class="forca f-alta">boa</span></strong>
+        <p>Autoria, integridade e data atestadas. Suficiente na maioria dos casos. Use o seu
+           certificado de advogado — você já o tem — e peça o carimbo do tempo ao assinar:
+           sem ele, a data é a do relógio do seu computador, e relógio se ajusta.</p>
       </li>
       <li>
         <strong>Termo + registro público de hashes <span class="forca f-media">média</span></strong>
@@ -1178,6 +1234,158 @@ class SHA256 {
 
 
 /**
+ * SHA-512 incremental, em JavaScript puro.
+ *
+ * Por que existe: a norma e a literatura forense admitem SHA-256 ou SHA-512.
+ * Calcular os dois torna irrelevante qualquer discussão futura sobre colisao:
+ * seria preciso um arquivo que colidisse nas DUAS funcoes ao mesmo tempo.
+ *
+ * O SHA-512 opera em palavras de 64 bits, que o JavaScript nao tem de forma
+ * nativa e rapida. Aqui cada palavra e um par de inteiros de 32 bits (alto,
+ * baixo), e a aritmetica e feita a mao - mais rapido que BigInt, que seria
+ * inviavel para video.
+ */
+const K512 = [
+ 0x428a2f98,0xd728ae22, 0x71374491,0x23ef65cd, 0xb5c0fbcf,0xec4d3b2f, 0xe9b5dba5,0x8189dbbc,
+ 0x3956c25b,0xf348b538, 0x59f111f1,0xb605d019, 0x923f82a4,0xaf194f9b, 0xab1c5ed5,0xda6d8118,
+ 0xd807aa98,0xa3030242, 0x12835b01,0x45706fbe, 0x243185be,0x4ee4b28c, 0x550c7dc3,0xd5ffb4e2,
+ 0x72be5d74,0xf27b896f, 0x80deb1fe,0x3b1696b1, 0x9bdc06a7,0x25c71235, 0xc19bf174,0xcf692694,
+ 0xe49b69c1,0x9ef14ad2, 0xefbe4786,0x384f25e3, 0x0fc19dc6,0x8b8cd5b5, 0x240ca1cc,0x77ac9c65,
+ 0x2de92c6f,0x592b0275, 0x4a7484aa,0x6ea6e483, 0x5cb0a9dc,0xbd41fbd4, 0x76f988da,0x831153b5,
+ 0x983e5152,0xee66dfab, 0xa831c66d,0x2db43210, 0xb00327c8,0x98fb213f, 0xbf597fc7,0xbeef0ee4,
+ 0xc6e00bf3,0x3da88fc2, 0xd5a79147,0x930aa725, 0x06ca6351,0xe003826f, 0x14292967,0x0a0e6e70,
+ 0x27b70a85,0x46d22ffc, 0x2e1b2138,0x5c26c926, 0x4d2c6dfc,0x5ac42aed, 0x53380d13,0x9d95b3df,
+ 0x650a7354,0x8baf63de, 0x766a0abb,0x3c77b2a8, 0x81c2c92e,0x47edaee6, 0x92722c85,0x1482353b,
+ 0xa2bfe8a1,0x4cf10364, 0xa81a664b,0xbc423001, 0xc24b8b70,0xd0f89791, 0xc76c51a3,0x0654be30,
+ 0xd192e819,0xd6ef5218, 0xd6990624,0x5565a910, 0xf40e3585,0x5771202a, 0x106aa070,0x32bbd1b8,
+ 0x19a4c116,0xb8d2d0c8, 0x1e376c08,0x5141ab53, 0x2748774c,0xdf8eeb99, 0x34b0bcb5,0xe19b48a8,
+ 0x391c0cb3,0xc5c95a63, 0x4ed8aa4a,0xe3418acb, 0x5b9cca4f,0x7763e373, 0x682e6ff3,0xd6b2b8a3,
+ 0x748f82ee,0x5defb2fc, 0x78a5636f,0x43172f60, 0x84c87814,0xa1f0ab72, 0x8cc70208,0x1a6439ec,
+ 0x90befffa,0x23631e28, 0xa4506ceb,0xde82bde9, 0xbef9a3f7,0xb2c67915, 0xc67178f2,0xe372532b,
+ 0xca273ece,0xea26619c, 0xd186b8c7,0x21c0c207, 0xeada7dd6,0xcde0eb1e, 0xf57d4f7f,0xee6ed178,
+ 0x06f067aa,0x72176fba, 0x0a637dc5,0xa2c898a6, 0x113f9804,0xbef90dae, 0x1b710b35,0x131c471b,
+ 0x28db77f5,0x23047d84, 0x32caab7b,0x40c72493, 0x3c9ebe0a,0x15c9bebc, 0x431d67c4,0x9c100d4c,
+ 0x4cc5d4be,0xcb3e42b6, 0x597f299c,0xfc657e2a, 0x5fcb6fab,0x3ad6faec, 0x6c44198c,0x4a475817
+];
+
+class SHA512 {
+  constructor(){
+    this.h = new Int32Array([
+      0x6a09e667,0xf3bcc908, 0xbb67ae85,0x84caa73b, 0x3c6ef372,0xfe94f82b, 0xa54ff53a,0x5f1d36f1,
+      0x510e527f,0xade682d1, 0x9b05688c,0x2b3e6c1f, 0x1f83d9ab,0xfb41bd6b, 0x5be0cd19,0x137e2179
+    ]);
+    this.buf = new Uint8Array(128);
+    this.bufLen = 0;
+    this.total = 0n;
+    this.w = new Int32Array(160);
+  }
+
+  _bloco(b, off){
+    const w = this.w, h = this.h;
+    for (let i = 0; i < 32; i++){
+      w[i] = (b[off+i*4]<<24) | (b[off+i*4+1]<<16) | (b[off+i*4+2]<<8) | b[off+i*4+3];
+    }
+    for (let i = 32; i < 160; i += 2){
+      // sigma0 sobre w[i-30] (palavra de 64 bits = par i-30, i-29)
+      let xh = w[i-30], xl = w[i-29];
+      let s0h = ((xh>>>1)|(xl<<31)) ^ ((xh>>>8)|(xl<<24)) ^ (xh>>>7);
+      let s0l = ((xl>>>1)|(xh<<31)) ^ ((xl>>>8)|(xh<<24)) ^ ((xl>>>7)|(xh<<25));
+      // sigma1 sobre w[i-4]
+      let yh = w[i-4], yl = w[i-3];
+      let s1h = ((yh>>>19)|(yl<<13)) ^ ((yl>>>29)|(yh<<3)) ^ (yh>>>6);
+      let s1l = ((yl>>>19)|(yh<<13)) ^ ((yh>>>29)|(yl<<3)) ^ ((yl>>>6)|(yh<<26));
+      // w[i] = w[i-32] + s0 + w[i-14] + s1
+      let al = (w[i-31]>>>0) + (s0l>>>0);
+      let ah = (w[i-32]>>>0) + (s0h>>>0) + (al > 0xFFFFFFFF ? 1 : 0);
+      al = al >>> 0;
+      let bl = al + (w[i-13]>>>0);
+      let bh = (ah>>>0) + (w[i-14]>>>0) + (bl > 0xFFFFFFFF ? 1 : 0);
+      bl = bl >>> 0;
+      let cl = bl + (s1l>>>0);
+      let ch = (bh>>>0) + (s1h>>>0) + (cl > 0xFFFFFFFF ? 1 : 0);
+      w[i] = ch|0; w[i+1] = cl|0;
+    }
+
+    let ah=h[0],al=h[1], bh=h[2],bl=h[3], cph=h[4],cpl=h[5], dh=h[6],dl=h[7];
+    let eh=h[8],el=h[9], fh=h[10],fl=h[11], gh=h[12],gl=h[13], hh=h[14],hl=h[15];
+
+    for (let i = 0; i < 160; i += 2){
+      // Sigma1(e)
+      const S1h = ((eh>>>14)|(el<<18)) ^ ((eh>>>18)|(el<<14)) ^ ((el>>>9)|(eh<<23));
+      const S1l = ((el>>>14)|(eh<<18)) ^ ((el>>>18)|(eh<<14)) ^ ((eh>>>9)|(el<<23));
+      // Ch(e,f,g)
+      const chh = (eh & fh) ^ (~eh & gh);
+      const chl = (el & fl) ^ (~el & gl);
+      // T1 = h + S1 + Ch + K + W
+      let t1l = (hl>>>0) + (S1l>>>0);
+      let t1h = (hh>>>0) + (S1h>>>0) + (t1l > 0xFFFFFFFF ? 1 : 0); t1l >>>= 0;
+      let x = t1l + (chl>>>0); t1h = (t1h>>>0) + (chh>>>0) + (x > 0xFFFFFFFF ? 1 : 0); t1l = x>>>0;
+      x = t1l + (K512[i+1]>>>0); t1h = (t1h>>>0) + (K512[i]>>>0) + (x > 0xFFFFFFFF ? 1 : 0); t1l = x>>>0;
+      x = t1l + (w[i+1]>>>0); t1h = (t1h>>>0) + (w[i]>>>0) + (x > 0xFFFFFFFF ? 1 : 0); t1l = x>>>0;
+      t1h = t1h>>>0;
+      // Sigma0(a)
+      const S0h = ((ah>>>28)|(al<<4)) ^ ((al>>>2)|(ah<<30)) ^ ((al>>>7)|(ah<<25));
+      const S0l = ((al>>>28)|(ah<<4)) ^ ((ah>>>2)|(al<<30)) ^ ((ah>>>7)|(al<<25));
+      // Maj(a,b,c)
+      const mjh = (ah & bh) ^ (ah & cph) ^ (bh & cph);
+      const mjl = (al & bl) ^ (al & cpl) ^ (bl & cpl);
+      // T2 = S0 + Maj
+      let t2l = (S0l>>>0) + (mjl>>>0);
+      let t2h = (S0h>>>0) + (mjh>>>0) + (t2l > 0xFFFFFFFF ? 1 : 0); t2l >>>= 0; t2h = t2h>>>0;
+
+      hh=gh; hl=gl; gh=fh; gl=fl; fh=eh; fl=el;
+      // e = d + T1
+      let el2 = (dl>>>0) + t1l;
+      let eh2 = (dh>>>0) + t1h + (el2 > 0xFFFFFFFF ? 1 : 0);
+      eh = eh2>>>0; el = el2>>>0;
+      dh=cph; dl=cpl; cph=bh; cpl=bl; bh=ah; bl=al;
+      // a = T1 + T2
+      let al2 = t1l + t2l;
+      let ah2 = t1h + t2h + (al2 > 0xFFFFFFFF ? 1 : 0);
+      ah = ah2>>>0; al = al2>>>0;
+    }
+
+    const soma = (i, xh, xl) => {
+      let l = (h[i+1]>>>0) + (xl>>>0);
+      let hgh = (h[i]>>>0) + (xh>>>0) + (l > 0xFFFFFFFF ? 1 : 0);
+      h[i] = hgh|0; h[i+1] = l|0;
+    };
+    soma(0,ah,al); soma(2,bh,bl); soma(4,cph,cpl); soma(6,dh,dl);
+    soma(8,eh,el); soma(10,fh,fl); soma(12,gh,gl); soma(14,hh,hl);
+  }
+
+  update(dados){
+    const d = dados instanceof Uint8Array ? dados : new Uint8Array(dados);
+    this.total += BigInt(d.length);
+    let i = 0;
+    if (this.bufLen > 0){
+      const pega = Math.min(128 - this.bufLen, d.length);
+      this.buf.set(d.subarray(0, pega), this.bufLen);
+      this.bufLen += pega; i = pega;
+      if (this.bufLen === 128){ this._bloco(this.buf, 0); this.bufLen = 0; }
+    }
+    for (; i + 128 <= d.length; i += 128) this._bloco(d, i);
+    if (i < d.length){ this.bufLen = d.length - i; this.buf.set(d.subarray(i), 0); }
+    return this;
+  }
+
+  hex(){
+    const bits = this.total * 8n;
+    const resto = this.bufLen;
+    const tam = resto < 112 ? 128 : 256;
+    const p = new Uint8Array(tam);
+    p.set(this.buf.subarray(0, resto), 0);
+    p[resto] = 0x80;
+    for (let i = 0; i < 16; i++) p[tam-1-i] = Number((bits >> BigInt(8*i)) & 0xffn);
+    for (let off = 0; off < tam; off += 128) this._bloco(p, off);
+    let s = '';
+    for (let i = 0; i < 16; i++) s += (this.h[i]>>>0).toString(16).padStart(8,'0');
+    return s;
+  }
+}
+
+
+/**
  * Leitor de metadados EXIF, direto dos bytes do arquivo.
  *
  * Por que importa aqui: o perito e o juízo querem saber de ONDE veio a imagem.
@@ -1312,9 +1520,10 @@ function lerIfd(d, base, pos, le, tabela, saida){
    ======================================================================= */
 const PEDACO = 4 * 1024 * 1024;   // 4 MB por vez
 
-function hashDoArquivo(file, aoProgredir, coletarExif){
+function hashDoArquivo(file, aoProgredir, coletarExif, tambem512){
   return new Promise((resolve, reject) => {
     const s = new SHA256();
+    const s2 = tambem512 ? new SHA512() : null;   // mesma leitura alimenta as duas
     let lido = 0;
     let exif = null;
     const leitor = new FileReader();
@@ -1327,16 +1536,17 @@ function hashDoArquivo(file, aoProgredir, coletarExif){
         try { exif = lerExif(bloco); } catch(e){ exif = null; }
       }
       s.update(bloco);
+      if (s2) s2.update(bloco);
       lido += ev.target.result.byteLength;
       if (aoProgredir) aoProgredir(lido, file.size);
       if (lido < file.size) proximo();
-      else resolve(coletarExif ? { hash: s.hex(), exif } : s.hex());
+      else resolve(coletarExif ? { hash: s.hex(), hash512: s2 ? s2.hex() : null, exif } : s.hex());
     };
 
     function proximo(){
       leitor.readAsArrayBuffer(file.slice(lido, Math.min(lido + PEDACO, file.size)));
     }
-    if (file.size === 0) resolve(coletarExif ? { hash: s.hex(), exif: null } : s.hex());
+    if (file.size === 0) resolve(coletarExif ? { hash: s.hex(), hash512: s2 ? s2.hex() : null, exif: null } : s.hex());
     else proximo();
   });
 }
@@ -1426,12 +1636,13 @@ async function receber(lista){
     try {
       const r = await hashDoArquivo(f, (lido, total) => {
         $('progBarra').style.width = (total ? (lido/total*100) : 100).toFixed(1) + '%';
-      }, true);
+      }, true, $('usar512').checked);
       estado.arquivos.push({
         nome: f.name, tamanho: f.size,
         tipo: f.type || 'não informado pelo sistema',
         modificado: f.lastModified ? new Date(f.lastModified).toISOString() : null,
-        hash: r.hash, exif: r.exif
+        hash: r.hash, hash512: r.hash512, exif: r.exif,
+        ref: f   // referência ao arquivo em disco, para recalcular se preciso
       });
     } catch (err) {
       $('progTexto').textContent = 'Erro: ' + err.message;
@@ -1480,7 +1691,15 @@ function desenharArquivos(){
     }
 
     const tdH = document.createElement('td');
-    tdH.className = 'hashcel'; tdH.textContent = a.hash;
+    tdH.className = 'hashcel';
+    tdH.textContent = a.hash;
+    if (a.hash512){
+      const marca = document.createElement('div');
+      marca.style.cssText = 'margin-top:4px;font:600 10.5px var(--sans);color:var(--ok)';
+      marca.textContent = '+ SHA-512';
+      marca.title = a.hash512;
+      tdH.appendChild(marca);
+    }
 
     const tdX = document.createElement('td');
     const bt = document.createElement('button');
@@ -1496,6 +1715,39 @@ function desenharArquivos(){
   });
   revisarBotao();
 }
+
+$('usar512').addEventListener('change', async () => {
+  if (!$('usar512').checked) return;
+  const faltam = estado.arquivos.filter(a => !a.hash512 && a.ref);
+  if (!faltam.length) return;
+
+  $('progresso').classList.remove('oculto');
+  for (let i = 0; i < faltam.length; i++){
+    const a = faltam[i];
+    $('progTexto').textContent =
+      `Calculando SHA-512 de ${i+1} de ${faltam.length}: ${a.nome}`;
+    $('progBarra').style.width = '0%';
+    try {
+      const r = await hashDoArquivo(a.ref, (lido, total) => {
+        $('progBarra').style.width = (total ? (lido/total*100) : 100).toFixed(1) + '%';
+      }, true, true);
+      if (r.hash !== a.hash){
+        // o arquivo mudou em disco desde que entrou: avisar, nunca sobrescrever calado
+        $('progTexto').textContent =
+          `ATENÇÃO: ${a.nome} mudou em disco desde que foi incluído. Remova e inclua de novo.`;
+        await new Promise(r2 => setTimeout(r2, 4000));
+        continue;
+      }
+      a.hash512 = r.hash512;
+    } catch(e){
+      $('progTexto').textContent = 'Erro em ' + a.nome + ': ' + e.message;
+      await new Promise(r2 => setTimeout(r2, 2500));
+    }
+  }
+  $('progresso').classList.add('oculto');
+  desenharArquivos();
+  if (estado.termo) $('resultado').classList.add('oculto');   // o termo anterior ficou desatualizado
+});
 
 function revisarBotao(){
   const ok = estado.arquivos.length > 0 && $('advNome').value.trim() &&
@@ -1533,6 +1785,7 @@ $('btnGerar').addEventListener('click', () => {
       tamanho ...: ${a.tamanho} bytes (${tamanhoLegivel(a.tamanho)})
       tipo ......: ${a.tipo}
       SHA-256 ...: ${a.hash}`;
+    if (a.hash512) bloco += `\n      SHA-512 ...: ${a.hash512}`;
     if (a.modificado) bloco += `\n      modificado : ${a.modificado} (relógio do sistema de origem)`;
     if (a.exif){
       bloco += '\n      metadados incorporados ao arquivo (EXIF), lidos sem alterá-lo:';
@@ -1598,7 +1851,7 @@ permanecem disponíveis para exame técnico independente.
 V - ARQUIVOS PRESERVADOS E RESPECTIVAS IMPRESSÕES DIGITAIS
 =============================================================================
 Total: ${estado.arquivos.length} arquivo(s).
-Função criptográfica: SHA-256 (FIPS 180-4).
+Funções criptográficas: SHA-256${estado.arquivos.some(a => a.hash512) ? ' e SHA-512' : ''} (FIPS 180-4).
 
 ${linhasArq}
 
@@ -1703,7 +1956,10 @@ QUESITOS SUGERIDOS, NA HIPÓTESE DE PERÍCIA
      contém os elementos mínimos do item 2.1 da ABNT NBR ISO/IEC 27037.
   8. Queira informar se há divergência entre a configuração de relógio
      declarada no item IV e as datas constantes dos metadados.
-  9. Havendo divergência em qualquer dos quesitos anteriores, queira indicar,
+  9. Queira informar se a assinatura do termo contém carimbo do tempo emitido
+     por Autoridade de Carimbo do Tempo credenciada e, em caso positivo, qual
+     a data nele atestada.
+ 10. Havendo divergência em qualquer dos quesitos anteriores, queira indicar,
      de modo específico, em que consiste e qual sua repercussão sobre a
      confiabilidade do material.
 
@@ -1727,6 +1983,11 @@ Recomenda-se subscrever este termo com certificado digital ICP-Brasil, do que
 decorre presunção de veracidade quanto ao signatário, nos termos do art. 10,
 § 1º, da Medida Provisória 2.200-2/2001. [CONFERIR REDAÇÃO VIGENTE]
 
+Recomenda-se, ainda, que a assinatura seja acompanhada de carimbo do tempo
+emitido por Autoridade de Carimbo do Tempo da ICP-Brasil (padrão PAdES-T),
+caso em que a data deixa de depender do relógio do equipamento do subscritor
+e passa a ser atestada por terceiro credenciado.
+
 
 _______________________________________________
 ${v('advNome')}
@@ -1743,7 +2004,7 @@ ${v('advOab')}
     responsavel: { oab: v('advOab'), contato: v('advEmail') || null },
     quantidade_de_arquivos: estado.arquivos.length,
     hashes: estado.arquivos.map((a, i) => ({
-      ordem: i + 1, sha256: a.hash, bytes: a.tamanho,
+      ordem: i + 1, sha256: a.hash, sha512: a.hash512 || undefined, bytes: a.tamanho,
       tipo: a.tipo === 'não informado pelo sistema' ? null : a.tipo,
       // apenas se HÁ metadados, nunca o seu conteúdo: dizer "este arquivo tem EXIF"
       // não revela nada, mas permite ao perito saber o que esperar
