@@ -168,6 +168,7 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
 <div class="env">
 <div class="abas" role="tablist">
   <button role="tab" aria-selected="true"  data-aba="preservar">Preservar prova</button>
+  <button role="tab" aria-selected="false" data-aba="colher">Colher do cliente</button>
   <button role="tab" aria-selected="false" data-aba="selar">Selar assinado</button>
   <button role="tab" aria-selected="false" data-aba="verificar">Verificar prova</button>
   <button role="tab" aria-selected="false" data-aba="valor">Valor em juízo</button>
@@ -364,6 +365,148 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
   </div>
 </section>
 
+
+
+<!-- ===================== COLHER DO CLIENTE ===================== -->
+<section id="aba-colher" class="oculto">
+
+  <div class="cartao">
+    <h2>O erro que acontece antes de tudo</h2>
+    <div class="aviso ruim">
+      <strong>O WhatsApp destrói a prova no caminho</strong>
+      <p>Foto ou vídeo enviado pelo modo normal é <strong>recomprimido</strong>, e os metadados
+         são <strong>apagados</strong>. Chega a você uma cópia degradada: sem fabricante, sem
+         modelo, sem data de captura.</p>
+      <p>O hash que você calcula passa a ser o dessa cópia, não o do original. Preserva-se com
+         rigor técnico impecável um arquivo que já não é o que se diz ser — e é exatamente isso
+         que a parte contrária pergunta.</p>
+    </div>
+    <div class="aviso bom">
+      <strong>Comprove você mesmo, em dois minutos</strong>
+      <p>Envie a si próprio a mesma foto duas vezes: uma como <em>Foto</em>, outra como
+         <em>Documento</em>. Passe as duas pela aba "Preservar prova".</p>
+      <p>Os hashes virão diferentes, e só uma delas trará metadados. A demonstração é sua,
+         verificável, e vale mais em juízo do que qualquer afirmação de terceiro.</p>
+    </div>
+  </div>
+
+  <div class="cartao">
+    <h2>Como pedir, conforme o tipo</h2>
+    <table class="arq">
+      <thead><tr><th>O que é</th><th>Peça assim</th><th>Por quê</th></tr></thead>
+      <tbody>
+        <tr><td class="nomearq">Foto ou vídeo</td>
+            <td>Enviar como <strong>Documento</strong> (clipe → Documento → Procurar arquivo),
+                ou por e-mail, ou por link de nuvem</td>
+            <td>Nesse modo não há recompressão, e os metadados sobrevivem</td></tr>
+        <tr><td class="nomearq">Conversa inteira</td>
+            <td><strong>Exportar conversa</strong> com mídia (abrir a conversa → nome do contato
+                → Exportar conversa → Incluir mídia)</td>
+            <td>Gera um .txt com todas as mensagens datadas, mais os arquivos originais.
+                Muito superior ao print: traz a sequência, e não um recorte</td></tr>
+        <tr><td class="nomearq">Áudio</td>
+            <td>Vem junto na exportação da conversa</td>
+            <td>Chega em .opus, sem recompressão</td></tr>
+        <tr><td class="nomearq">Print de tela</td>
+            <td>Só quando inevitável, e sempre como Documento</td>
+            <td>É representação do conteúdo, não o dado original. Serve de complemento,
+                nunca como elemento único</td></tr>
+        <tr><td class="nomearq">E-mail</td>
+            <td>Encaminhar o <strong>.eml</strong> original, ou "Mostrar original" no Gmail</td>
+            <td>Preserva cabeçalhos e assinaturas de servidor, que o print não mostra</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cartao">
+    <h2>Mensagem pronta para o cliente</h2>
+    <p class="sub">Linguagem simples, sem termo técnico. Copie e envie quando ele disser que vai mandar as provas.</p>
+    <pre class="saida" id="msgCliente">Antes de me mandar, preciso te explicar uma coisa importante.
+
+Quando a gente manda foto ou vídeo pelo WhatsApp do jeito normal, o
+aplicativo encolhe o arquivo e apaga as informações escondidas dentro
+dele - a data em que a foto foi tirada, o modelo do aparelho, essas
+coisas. Na Justiça, são justamente essas informações que provam que o
+arquivo é verdadeiro.
+
+Então faça assim, por favor:
+
+FOTO OU VÍDEO
+Toque no clipe (o desenho de clipe de papel), escolha "Documento",
+depois "Procurar outros arquivos", e aí encontre a foto ou o vídeo.
+Vai chegar mais devagar, mas chega inteiro.
+
+CONVERSA DE WHATSAPP
+Não me mande print. Abra a conversa, toque no nome da pessoa lá em
+cima, role até embaixo e toque em "Exportar conversa". Escolha
+"Incluir mídia". Aí me envie o arquivo que aparecer.
+
+ÁUDIO
+Vem junto quando você exportar a conversa.
+
+E mais três coisas:
+
+1. Não apague nada do seu celular depois de me mandar. O arquivo que
+   está aí é o original, e ele pode precisar ser examinado.
+
+2. Não corte, não edite, não melhore a imagem. Mande como está.
+
+3. Me conte de onde veio: foi tirado por você? Alguém te mandou? Em
+   que dia, mais ou menos?
+
+Qualquer dúvida, me chame que eu explico de novo.</pre>
+    <div class="botoes">
+      <button class="secund" id="btnCopiarMsg">Copiar mensagem</button>
+    </div>
+  </div>
+
+  <div class="cartao">
+    <h2>Ao receber: o que perguntar e registrar</h2>
+    <p class="sub">São as respostas que preenchem a cadeia de custódia na aba "Preservar prova".</p>
+    <ol class="escala">
+      <li><strong>De qual aparelho saiu?</strong>
+        <p>Marca, modelo e, se possível, o IMEI. De quem é o aparelho — do cliente, do cônjuge,
+           de um colega? Aparelho de terceiro muda a análise.</p></li>
+      <li><strong>Como o arquivo chegou até você?</strong>
+        <p>Documento pelo WhatsApp, exportação da conversa, e-mail, nuvem, ou coletado por você
+           na presença dele. Esta é a resposta que a parte contrária vai testar primeiro.</p></li>
+      <li><strong>O conteúdo foi gerado por quem?</strong>
+        <p>Foto tirada pelo próprio cliente é uma coisa; recebida de terceiro é outra; áudio de
+           conversa de que ele participou é outra ainda. Isso decide inclusive a licitude.</p></li>
+      <li><strong>Quando ocorreu o fato, e quando foi colhido?</strong>
+        <p>São datas distintas, e o intervalo entre elas interessa. Se o metadado traz data de
+           captura, confronte com o que ele narrou — divergência precisa ser explicada antes,
+           não depois.</p></li>
+      <li><strong>O original continua existindo?</strong>
+        <p>Pergunta decisiva. Se o cliente apagou do celular, você tem apenas uma cópia, e isso
+           precisa constar do termo. Oriente a não apagar nada.</p></li>
+      <li><strong>Alguém mais tem esse arquivo?</strong>
+        <p>Se circulou em grupo, a origem fica menos controlável — e convém saber disso antes
+           da parte contrária.</p></li>
+    </ol>
+  </div>
+
+  <div class="cartao">
+    <h2>Quando o arquivo já chegou degradado</h2>
+    <div class="aviso">
+      <strong>Não descarte — declare</strong>
+      <p>Se o cliente já enviou pelo modo normal e o original não existe mais, você tem uma cópia
+         sem metadados. Ela ainda tem valor, desde que apresentada pelo que é.</p>
+      <p>Na aba "Preservar prova", escolha em <em>Forma de extração</em> a opção
+         <strong>"Encaminhamento recebido de terceiro"</strong>, e registre na narrativa que o
+         arquivo foi recebido por aplicativo de mensagens, com a ressalva de que esse meio
+         recomprime o conteúdo e remove metadados.</p>
+      <p>Preservar uma cópia degradada e dizer a verdade sobre ela é defensável. Chamá-la de
+         original, não — e é o tipo de afirmação que, uma vez desmentida, contamina o conjunto
+         inteiro da prova, inclusive a parte que estava correta.</p>
+    </div>
+    <p style="font-size:14px"><strong>Vale ir buscar o original?</strong> Se a prova é central na
+       causa, sim: colha do próprio aparelho, na presença do cliente, direto para o seu
+       computador. Se for central <em>e</em> houver risco de impugnação séria, considere a ata
+       notarial — o tabelião constata o conteúdo na tela do aparelho, e isso é o patamar que
+       nenhum instrumento particular alcança.</p>
+  </div>
+</section>
 
 <!-- ===================== SELAR ASSINADO ===================== -->
 <section id="aba-selar" class="oculto">
@@ -1225,7 +1368,7 @@ const estado = { arquivos: [], termo: null };
 document.querySelectorAll('.abas button').forEach(b => {
   b.addEventListener('click', () => {
     document.querySelectorAll('.abas button').forEach(x => x.setAttribute('aria-selected', x === b));
-    ['preservar','selar','verificar','valor','validacao','ajuda'].forEach(n =>
+    ['preservar','colher','selar','verificar','valor','validacao','ajuda'].forEach(n =>
       $('aba-' + n).classList.toggle('oculto', n !== b.dataset.aba));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
@@ -1654,6 +1797,7 @@ $('btnCopiarRegistro').addEventListener('click', e =>
 $('btnBaixarRegistro').addEventListener('click', () =>
   baixar(nomeBase() + '.json', JSON.stringify(estado.termo.registro, null, 2), 'application/json'));
 $('btnCopiarModelo').addEventListener('click', e => copiar($('modeloPeticao').textContent, e.target));
+$('btnCopiarMsg').addEventListener('click', e => copiar($('msgCliente').textContent, e.target));
 $('btnImprimir').addEventListener('click', () => {
   const j = window.open('', '_blank');
   if (!j) { alert('O navegador bloqueou a janela de impressão. Libere e tente de novo.'); return; }
