@@ -171,6 +171,7 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
   <button role="tab" aria-selected="false" data-aba="selar">Selar assinado</button>
   <button role="tab" aria-selected="false" data-aba="verificar">Verificar prova</button>
   <button role="tab" aria-selected="false" data-aba="valor">Valor em juízo</button>
+  <button role="tab" aria-selected="false" data-aba="validacao">Validação</button>
   <button role="tab" aria-selected="false" data-aba="ajuda">Como usar</button>
 </div>
 <!-- ===================== PRESERVAR ===================== -->
@@ -532,13 +533,49 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
 
     <h3 style="font:600 15px var(--sans);margin:22px 0 6px">3. Jurisprudência</h3>
 
-    <div class="aviso bom">
-      <strong>STJ — Jurisprudência em Teses, Edição n. 281</strong>
-      <p>"Direito Penal e Processual Penal em Ambiente Digital III", de 29/05/2026
-         (edição atualizada em 15/05/2026). Duas teses incidem diretamente sobre este sistema.</p>
+    <div class="aviso">
+      <strong>Procedência destas citações</strong>
+      <p>As <em>Teses 3 e 4</em> vêm do periódico oficial do STJ, conferido em PDF.
+         Os acórdãos adiante foram <strong>levantados pelo advogado</strong> em ferramenta de
+         pesquisa e aqui transcritos com a referência completa; não foi possível conferi-los
+         na base dos tribunais a partir deste ambiente.
+         <span class="marcador">[CONFERIR NA BASE OFICIAL ANTES DE CITAR]</span></p>
     </div>
 
-    <p style="font-size:14.5px;margin:18px 0 6px"><strong>Tese 3 — o hash é meio idôneo, e nomeado</strong></p>
+    <h4 style="font:600 14.5px var(--sans);margin:22px 0 8px;color:var(--marca)">
+      3.1 — Justiça do Trabalho: o precedente que sustenta diretamente este sistema</h4>
+
+    <div class="aviso bom">
+      <strong>TST reconhece o hash como elemento de integridade — e dispensa o ICP-Brasil</strong>
+      <blockquote style="margin:10px 0;padding:12px 16px;border-left:3px solid var(--ok);
+        background:var(--ok-clara);border-radius:0 var(--raio) var(--raio) 0;font-size:14px">
+        "A Medida Provisória 2.200-2/2001 e a Lei 14.063/2020 reconhecem a validade de outras
+        modalidades de assinatura eletrônica (avançada e simples), desde que garantam a
+        identificação do signatário e a integridade do documento. [...] a assinatura foi gerada
+        em plataforma eletrônica, com elementos suficientes para identificar a signatária (nome
+        completo, CPF, e-mail, IP, local e horário da assinatura, além de <strong>'hash' do
+        documento</strong>), o que, na ausência de prova de fraude ou falsidade, confere ao
+        documento a <strong>presunção de veracidade</strong>."
+      </blockquote>
+      <p style="font-size:13px;color:var(--tinta-media)">
+        TST, 2ª Turma, Rel. Min. Delaide Alves Miranda Arantes:
+        RR 0011041-26.2024.5.18.0121, j. 01/06/2026, juntado em 03/06/2026;
+        RR 0000379-45.2025.5.18.0128, j. 01/06/2026, juntado em 08/06/2026;
+        RR 0010590-14.2024.5.18.0052, j. 01/06/2026, juntado em 08/06/2026.
+      </p>
+      <p><strong>Por que isto importa mais que todo o resto:</strong> é matéria trabalhista, é do
+         TST, e nomeia o hash entre os elementos que conferem presunção de veracidade. Preenche
+         exatamente a lacuna que antes se assinalava aqui — a de precedente fora do campo penal.</p>
+      <p>E traz um reforço lateral valioso: o TST recusou a leitura literal que exigiria
+         ICP-Brasil, por "privilegiar o formalismo em detrimento da busca pela segurança e
+         integridade do processo eletrônico". Ou seja: mesmo no patamar 4 da escala abaixo — termo
+         sem assinatura qualificada — há amparo. Com o seu certificado, você fica acima disso.</p>
+    </div>
+
+    <h4 style="font:600 14.5px var(--sans);margin:24px 0 8px;color:var(--marca)">
+      3.2 — STJ: as duas teses oficiais</h4>
+
+    <p style="font-size:14.5px;margin:0 0 6px"><strong>Tese 3 — o hash é meio idôneo, e nomeado</strong></p>
     <blockquote style="margin:0 0 10px;padding:12px 16px;border-left:3px solid var(--marca);
       background:var(--marca-clara);border-radius:0 var(--raio) var(--raio) 0;font-size:14px">
       "Para a integridade e auditabilidade da prova digital, é necessária a preservação da cadeia
@@ -553,72 +590,96 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
       DJE 29/04/2024. (Informativos n. 811 e 878.)
     </p>
 
-    <p style="font-size:14.5px;margin:18px 0 6px"><strong>Tese 4 — e o seu reverso, que convém conhecer</strong></p>
+    <p style="font-size:14.5px;margin:18px 0 6px"><strong>Tese 4 — e o seu reverso</strong></p>
     <blockquote style="margin:0 0 10px;padding:12px 16px;border-left:3px solid var(--alerta);
       background:var(--alerta-clara);border-radius:0 var(--raio) var(--raio) 0;font-size:14px">
       "Se houver <strong>dúvida razoável</strong> sobre a integridade e autenticidade da prova
       digital, é necessária a realização de <strong>exame pericial</strong> para assegurar a
       confiabilidade do material e o exercício do contraditório."
     </blockquote>
-    <p style="font-size:13px;color:var(--tinta-media);margin:0 0 16px">
+    <p style="font-size:13px;color:var(--tinta-media);margin:0 0 10px">
       Julgados: AgRg no HC 1014212/ES, Rel. Min. Carlos Pires Brandão, Sexta Turma,
       DJEN 20/02/2026; RHC 235625/SP (decisão monocrática), Rel. Min. Reynaldo Soares da Fonseca,
       Quinta Turma, publicado em 13/04/2026. (Informativo n. 878.)
     </p>
+    <p style="font-size:14px">A Tese 4 <em>não</em> diz que o hash dispensa perícia. A função do
+      hash é <strong>impedir que a dúvida razoável se instale</strong>: onde a conferência é
+      trivial e pública, a dúvida precisa de fundamento concreto. Sustentar que o hash "dispensa
+      perícia" afirma mais do que a tese autoriza.</p>
 
-    <div class="aviso">
-      <strong>Como as duas teses se combinam — e o erro que isso evita</strong>
-      <p>A Tese 4 <em>não</em> diz que o hash dispensa perícia. Diz que, havendo dúvida razoável,
-         a perícia é necessária.</p>
-      <p>A função do hash, portanto, não é afastar a perícia por decreto: é <strong>impedir que a
-         dúvida razoável se instale</strong>, por oferecer verificação imediata e independente a
-         qualquer das partes e ao Juízo. Onde a conferência é trivial e pública, a dúvida precisa
-         de fundamento concreto para existir.</p>
-      <p>Sustentar em petição que o hash "dispensa prova pericial" é afirmar mais do que a tese
-         autoriza, e convida o contraditório a provar o contrário. O modelo de redação abaixo
-         foi ajustado a essa distinção.</p>
-    </div>
+    <h4 style="font:600 14.5px var(--sans);margin:24px 0 8px;color:var(--marca)">
+      3.3 — STJ: o que acontece quando o hash falta</h4>
 
     <div class="aviso ruim">
-      <strong>Advertência indispensável sobre o alcance</strong>
-      <p>A Edição n. 281 é de <strong>Direito Penal e Processual Penal</strong>. Todas as suas dez
-         teses provêm de habeas corpus, recursos em habeas corpus e agravos em matéria criminal,
-         julgados pela Quinta e pela Sexta Turmas.</p>
-      <p>Em causa cível ou trabalhista, elas valem como <strong>argumento persuasivo</strong> sobre
-         o método técnico — não como precedente diretamente aplicável. Apresentá-las como se
-         fossem tese consolidada em matéria cível entrega à parte contrária uma impugnação
-         certeira, pela origem.</p>
-      <p>A forma correta é a transparente: invocar o padrão técnico que o STJ reconheceu em
-         matéria penal e sustentar, com razão, que a exigência de integridade e auditabilidade
-         da prova digital não é menor no processo civil, onde vigoram os mesmos deveres de boa-fé
-         e cooperação. <span class="marcador">[PESQUISAR precedente cível ou trabalhista
-         específico, para reforço]</span></p>
+      <strong>Quinta Turma — ausência de hash levou à inadmissibilidade</strong>
+      <p>Declarou inadmissíveis mensagens de e-mail juntadas <em>sem os respectivos códigos hash</em>,
+         e também as provas delas derivadas: "a ausência de códigos hash impede a verificação da
+         integridade das provas digitais, comprometendo sua confiabilidade e tornando-as
+         inadmissíveis".</p>
+      <p style="font-size:13px;color:var(--tinta-media)">AgRg no RHC n. 186.138/SP, Rel. Min.
+         Daniela Teixeira, Quinta Turma, j. 17/12/2024, DJEN 26/12/2024.</p>
+      <p>É o argumento mais forte <em>a favor</em> de usar este sistema: sem hash, a prova pode
+         simplesmente não ser admitida.</p>
     </div>
 
     <div class="aviso">
-      <strong>O termo que vale decorar: <em>princípio da mesmidade</em></strong>
-      <p>Aparece na própria Tese 3. Designa a exigência de que a prova examinada em juízo seja
-         <em>a mesma</em> colhida na origem — não uma cópia de procedência incerta.</p>
-      <p>É exatamente o que o hash demonstra, e por isso é o vocabulário mais preciso para a
-         petição: o resumo criptográfico é o que torna a mesmidade <strong>verificável</strong>,
-         em vez de meramente afirmada.</p>
+      <strong>Sexta Turma — contraponto: a falta de hash não gera nulidade automática</strong>
+      <p>Falta de código hash e de lacre foram tidas como irregularidades que não acarretam
+         nulidade por si sós, por estar a integridade assegurada por outros meios técnicos
+         (marca d'água e perícia), e por não ter a defesa demonstrado prejuízo concreto.</p>
+      <p style="font-size:13px;color:var(--tinta-media)">AgRg no AREsp n. 3.109.361/PR, Rel. Min.
+         Antonio Saldanha Palheiro, Sexta Turma, j. 07/04/2026, DJEN 14/04/2026.</p>
+      <p><strong>Registre esta divergência entre as Turmas e use-a conforme o polo.</strong>
+         Produzindo prova, siga a Quinta Turma e gere o hash. Impugnando prova da parte contrária
+         que venha sem hash, saiba que a Sexta Turma exige demonstração de prejuízo concreto —
+         alegação genérica não basta.</p>
     </div>
 
-    <div class="aviso ruim">
-      <strong>Citação não confirmada</strong>
-      <p>O <strong>RHC 143.169/RJ</strong>, que constava da compilação de origem, <strong>não
-         figura</strong> entre os julgados da Edição n. 281. Pode existir e ser pertinente, mas
-         não foi possível conferi-lo em fonte oficial a partir do material disponível.</p>
-      <p><span class="marcador">[VALIDAR EM FONTE OFICIAL ANTES DE CITAR]</span> — ou simplesmente
-         suprimi-lo: as Teses 3 e 4, com os julgados acima, já sustentam a tese com folga, e cada
-         citação não conferida é um flanco aberto.</p>
+    <div class="aviso bom">
+      <strong>O ganho estratégico: o ônus não se inverte</strong>
+      <p>"Não há inversão do ônus da prova quando a integridade do material digital é tecnicamente
+         demonstrada, sendo insuficientes alegações genéricas para reconhecer nulidade processual
+         acerca da quebra da integridade da cadeia de custódia."</p>
+      <p>No caso, a perícia seguiu as normas <strong>ABNT NBR ISO/IEC 27037 e 27042</strong>, com
+         aplicação de algoritmo hash sobre material extraído diretamente dos aparelhos.</p>
+      <p style="font-size:13px;color:var(--tinta-media)">AgRg no AREsp n. 3.258.001/GO, Rel. Min.
+         Joel Ilan Paciornik, Quinta Turma, j. 01/10/2026, DJEN 06/10/2026.</p>
+      <p>Este é o retorno prático de todo o trabalho: demonstrada tecnicamente a integridade,
+         quem impugna precisa apontar vício específico e comprovável. O sistema desloca o esforço
+         para o outro lado.</p>
+    </div>
+
+    <h4 style="font:600 14.5px var(--sans);margin:24px 0 8px;color:var(--marca)">
+      3.4 — STF: alegação genérica não derruba prova digital</h4>
+
+    <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+      <li><strong>RHC 268756 AgR</strong>, Rel. Min. André Mendonça, Segunda Turma, j. 22/04/2026,
+          p. 28/04/2026 — ausência de demonstração de adulteração; a análise demandaria reexame
+          fático-probatório, inadequado na via do habeas corpus.</li>
+      <li><strong>ARE 1610054 AgR</strong>, Rel. Min. Edson Fachin, Tribunal Pleno, j. 24/08/2026,
+          p. 09/09/2026 — capturas de tela de WhatsApp; ônus de demonstrar a alegada adulteração;
+          Súmula 279/STF.</li>
+      <li><strong>RHC 270016 AgR-ED</strong>, Rel. Min. Gilmar Mendes, Segunda Turma, j. 29/06/2026,
+          DJe 02/07/2026 — <em>geração tardia</em> do código hash não invalida por si só; exige-se
+          prejuízo concreto (CPP, art. 563). Pertinente ao nosso fluxo: aqui o hash é gerado no
+          momento da preservação, o mais cedo possível para o advogado.</li>
+    </ul>
+
+    <div class="aviso">
+      <strong>Advertência quanto ao alcance — permanece, mas atenuada</strong>
+      <p>Os julgados do STJ e do STF acima são de <strong>matéria criminal</strong>. Em causa cível
+         ou trabalhista valem como argumento persuasivo sobre o padrão técnico.</p>
+      <p>A diferença em relação à versão anterior deste sistema é que agora <strong>já não se
+         depende disso</strong>: os acórdãos do TST no item 3.1 são trabalhistas e tratam
+         diretamente do hash. Use-os como fundamento principal, e os criminais como reforço
+         do padrão técnico.</p>
     </div>
 
     <p style="font-size:13px;color:var(--tinta-fraca);margin:16px 0 0">
-      Fonte: STJ, <em>Jurisprudência em Teses</em>, Edição n. 281, Brasília, 29 de maio de 2026
-      (atualizada em 15/05/2026), disponível em scon.stj.jus.br/SCON/jt/. O próprio periódico
-      consigna não ser repositório oficial de jurisprudência: antes de protocolar, confira cada
-      julgado na base do tribunal.
+      Fontes: STJ, <em>Jurisprudência em Teses</em>, Edição n. 281, Brasília, 29/05/2026
+      (atualizada em 15/05/2026), scon.stj.jus.br/SCON/jt/ — conferido em PDF oficial.
+      Demais acórdãos: levantamento do advogado, pendentes de conferência na base dos tribunais.
+      O periódico consigna não ser repositório oficial de jurisprudência.
     </p>
   </div>
 
@@ -720,6 +781,26 @@ respectivos resumos criptográficos.</pre>
     </div>
     <p class="dica" style="margin-top:12px">Confira a redação vigente dos dispositivos antes de
        protocolar, e adeque ao rito. Os marcadores entre colchetes são preenchimento obrigatório.</p>
+  </div>
+</section>
+
+
+<!-- ===================== VALIDAÇÃO ===================== -->
+<section id="aba-validacao" class="oculto">
+  <div class="cartao">
+    <h2>Conferência das fontes</h2>
+    <p class="sub">Cada item leva ao texto oficial. Marcado aqui, o aviso some da aba "Valor em juízo".</p>
+    <div class="aviso">
+      <strong>Por que isto não veio pronto</strong>
+      <p>Dispositivo legal e precedente <em>citados de memória</em> são passivo numa peça. Cada
+         item abaixo precisa dos olhos de quem assina — e leva menos de um minuto.</p>
+      <p>Marque conforme conferir. Fica gravado neste aparelho e vale para todos os termos futuros.</p>
+    </div>
+    <p style="font:600 15px var(--sans);margin:18px 0 10px" id="placarValidacao"></p>
+    <div id="listaValidacao"></div>
+    <div class="botoes">
+      <button class="secund" id="btnLimparValidacao">Desmarcar tudo</button>
+    </div>
   </div>
 </section>
 
@@ -949,7 +1030,7 @@ const estado = { arquivos: [], termo: null };
 document.querySelectorAll('.abas button').forEach(b => {
   b.addEventListener('click', () => {
     document.querySelectorAll('.abas button').forEach(x => x.setAttribute('aria-selected', x === b));
-    ['preservar','selar','verificar','valor','ajuda'].forEach(n =>
+    ['preservar','selar','verificar','valor','validacao','ajuda'].forEach(n =>
       $('aba-' + n).classList.toggle('oculto', n !== b.dataset.aba));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
@@ -1495,6 +1576,201 @@ $('btnBaixarFinal').addEventListener('click', () =>
          JSON.stringify(selo.final.registroFinal, null, 2), 'application/json'));
 
 desenharArquivos();
+
+/* ---------- aba validação ---------- */
+const ITENS_VALIDACAO = [
+  { id:'cpc5e6',   g:'CPC — Lei 13.105/2015', t:'Arts. 5º e 6º',
+    o:'Boa-fé processual e cooperação. Confirmar a redação; sustentam a extensão ao cível do padrão técnico firmado no penal.',
+    u:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm' },
+  { id:'cpc369',   g:'CPC — Lei 13.105/2015', t:'Art. 369',
+    o:'Meios legais e moralmente legítimos de prova, ainda que não especificados no Código.',
+    u:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm' },
+  { id:'cpc384',   g:'CPC — Lei 13.105/2015', t:'Art. 384',
+    o:'Ata notarial privativa de tabelião. Confirma, a contrario sensu, a posição inferior do termo particular.',
+    u:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm' },
+  { id:'cpc411',   g:'CPC — Lei 13.105/2015', t:'Art. 411, II e III',
+    o:'ATENÇÃO: confirmar que o inciso III trata da AUSÊNCIA DE IMPUGNAÇÃO da parte contra quem o documento foi produzido — e não de "confirmação por outros meios de convicção". A distinção muda o que se pode afirmar em juízo.',
+    u:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm' },
+  { id:'cpc422',   g:'CPC — Lei 13.105/2015', t:'Art. 422, § 1º',
+    o:'Fotografias digitais e extraídas da internet; se impugnadas, autenticação eletrônica ou perícia. É o dispositivo central para capturas de tela.',
+    u:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm' },
+  { id:'cpc439',   g:'CPC — Lei 13.105/2015', t:'Arts. 439 a 441',
+    o:'Regime do documento eletrônico e de sua conversão.',
+    u:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm' },
+  { id:'mp2200',   g:'Legislação digital', t:'MP 2.200-2/2001, art. 10, §§ 1º e 2º',
+    o:'Presunção de veracidade quanto ao signatário, para documento assinado com certificado ICP-Brasil. É a base da força do seu certificado.',
+    u:'https://www.planalto.gov.br/ccivil_03/mpv/antigas_2001/2200-2.htm' },
+  { id:'lei14063', g:'Legislação digital', t:'Lei 14.063/2020, art. 4º, III',
+    o:'Classificação das assinaturas eletrônicas; confirmar que o inciso III corresponde à assinatura qualificada (com certificado ICP-Brasil).',
+    u:'https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2020/lei/l14063.htm' },
+  { id:'marcocivil', g:'Legislação digital', t:'Lei 12.965/2014, arts. 10 e 11',
+    o:'Marco Civil: guarda e proteção de registros. Pertinente só quando a prova envolver registros de provedor.',
+    u:'https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2014/lei/l12965.htm' },
+  { id:'cpp158',   g:'Cadeia de custódia', t:'CPP, arts. 158-A a 158-F',
+    o:'Cadeia de custódia (Lei 13.964/2019). Regime penal; no cível e trabalhista vale como argumento persuasivo sobre o método.',
+    u:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689compilado.htm' },
+  { id:'lgpd',     g:'Proteção de dados e sigilo', t:'LGPD, art. 7º, VI e art. 11, II, "d"',
+    o:'Exercício regular de direitos em processo judicial, como base para o tratamento. Conferir no caso concreto.',
+    u:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm' },
+  { id:'eaoab',    g:'Proteção de dados e sigilo', t:'Lei 8.906/94, art. 7º, e CED/OAB',
+    o:'Deveres de sigilo profissional. Fundamentam a decisão de publicar apenas hashes.',
+    u:'https://www.planalto.gov.br/ccivil_03/leis/l8906.htm' },
+  { id:'tst',      g:'Jurisprudência', t:'TST — os três acórdãos da 2ª Turma',
+    o:'RR 0011041-26.2024.5.18.0121, RR 0000379-45.2025.5.18.0128 e RR 0010590-14.2024.5.18.0052, Rel. Min. Delaide Alves Miranda Arantes, j. 01/06/2026. São o fundamento TRABALHISTA principal: confirmar inteiro teor, trânsito e eventual superação.',
+    u:'https://jurisprudencia.tst.jus.br/' },
+  { id:'stj186',   g:'Jurisprudência', t:'STJ — AgRg no RHC 186.138/SP',
+    o:'Rel. Min. Daniela Teixeira, 5ª Turma, j. 17/12/2024, DJEN 26/12/2024. Ausência de hash levou à inadmissibilidade. Confirmar.',
+    u:'https://scon.stj.jus.br/SCON/' },
+  { id:'stj3109',  g:'Jurisprudência', t:'STJ — AgRg no AREsp 3.109.361/PR',
+    o:'Rel. Min. Antonio Saldanha Palheiro, 6ª Turma, j. 07/04/2026, DJEN 14/04/2026. Contraponto da 6ª Turma. Confirmar, e verificar se a divergência entre Turmas persiste.',
+    u:'https://scon.stj.jus.br/SCON/' },
+  { id:'stj3258',  g:'Jurisprudência', t:'STJ — AgRg no AREsp 3.258.001/GO',
+    o:'Rel. Min. Joel Ilan Paciornik, 5ª Turma, j. 01/10/2026, DJEN 06/10/2026. Ônus não se inverte quando a integridade é tecnicamente demonstrada. Confirmar.',
+    u:'https://scon.stj.jus.br/SCON/' },
+  { id:'stf',      g:'Jurisprudência', t:'STF — RHC 268756 AgR, ARE 1610054 AgR, RHC 270016 AgR-ED',
+    o:'Confirmar inteiro teor dos três. O RHC 270016 trata da geração tardia do hash.',
+    u:'https://jurisprudencia.stf.jus.br/' },
+  { id:'rhc143',   g:'Jurisprudência', t:'RHC 143.169/RJ — NÃO CONFIRMADO',
+    o:'Não figura na Edição n. 281 e não foi possível conferi-lo. RECOMENDA-SE SUPRIMIR: as demais citações já sustentam a tese com folga, e citação não conferida é flanco aberto. Marque apenas se confirmar que existe e é pertinente.',
+    u:'https://scon.stj.jus.br/SCON/' },
+  { id:'abnt',     g:'Norma técnica', t:'ABNT NBR ISO/IEC 27037 e 27042',
+    o:'Normas de identificação, coleta e preservação de evidência digital, citadas pelo STJ no AREsp 3.258.001/GO. Vale conhecer para descrever a procedência com o vocabulário que o perito reconhece.',
+    u:'https://www.abntcatalogo.com.br/' },
+  { id:'itivalida',g:'Verificação de assinatura', t:'Verificador de assinaturas do ITI',
+    o:'Confirmar o endereço atual do verificador oficial ICP-Brasil. Alternativa já disponível: "Validar documento" no painel ONR.',
+    u:'https://www.gov.br/iti/pt-br' }
+];
+
+function lerValidacao(){
+  try { return JSON.parse(localStorage.getItem('prova.validacao') || '{}'); }
+  catch(e){ return {}; }
+}
+function gravarValidacao(v){
+  try { localStorage.setItem('prova.validacao', JSON.stringify(v)); } catch(e){}
+}
+
+function desenharValidacao(){
+  const v = lerValidacao();
+  const alvo = $('listaValidacao');
+  alvo.innerHTML = '';
+  let feitos = 0;
+
+  const grupos = [];
+  ITENS_VALIDACAO.forEach(it => {
+    let g = grupos.find(x => x.nome === it.g);
+    if (!g) grupos.push(g = { nome: it.g, itens: [] });
+    g.itens.push(it);
+  });
+
+  grupos.forEach(g => {
+    const hg = document.createElement('p');
+    hg.style.cssText = 'font:600 12px var(--sans);letter-spacing:.07em;text-transform:uppercase;' +
+                       'color:var(--tinta-fraca);margin:20px 0 8px';
+    hg.textContent = g.nome;
+    alvo.appendChild(hg);
+
+    g.itens.forEach(it => {
+      const marcado = !!v[it.id];
+      if (marcado) feitos++;
+
+      const linha = document.createElement('div');
+      linha.style.cssText = 'display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--linha);' +
+                            'align-items:flex-start';
+
+      const cx = document.createElement('input');
+      cx.type = 'checkbox'; cx.checked = marcado; cx.id = 'chk-' + it.id;
+      cx.style.cssText = 'width:17px;height:17px;margin:3px 0 0;flex:0 0 auto;cursor:pointer';
+      // Atualiza apenas esta linha: reconstruir a lista inteira a cada clique
+      // faria a página saltar sob o dedo de quem está conferindo.
+      cx.addEventListener('change', () => {
+        const atual = lerValidacao();
+        if (cx.checked) atual[it.id] = new Date().toISOString();
+        else delete atual[it.id];
+        gravarValidacao(atual);
+        pintarLinha(it, cx.checked, atual[it.id]);
+        atualizarPlacar();
+        aplicarMarcadores();
+      });
+
+      const txt = document.createElement('div');
+      txt.style.flex = '1';
+      const t = document.createElement('label');
+      t.setAttribute('for', 'chk-' + it.id);
+      t.style.cssText = 'font:600 14.5px var(--sans);margin:0 0 3px;cursor:pointer;' +
+                        'color:' + (marcado ? 'var(--ok)' : 'var(--tinta)');
+      t.textContent = it.t + (marcado ? '  ✓' : '');
+      const o = document.createElement('p');
+      o.style.cssText = 'margin:0 0 5px;font-size:13px;color:var(--tinta-media);line-height:1.55';
+      o.textContent = it.o;
+      const a = document.createElement('a');
+      a.href = it.u; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      a.style.cssText = 'font-size:12.5px;color:var(--marca);word-break:break-all';
+      a.textContent = 'abrir fonte oficial';
+      txt.append(t, o, a);
+
+      if (marcado){
+        const d = document.createElement('p');
+        d.className = 'carimbo';
+        d.style.cssText = 'margin:5px 0 0;font-size:12px;color:var(--ok)';
+        d.textContent = 'conferido em ' + new Date(v[it.id]).toLocaleString('pt-BR');
+        txt.appendChild(d);
+      }
+
+      linha.append(cx, txt);
+      alvo.appendChild(linha);
+      it._titulo = t; it._texto = txt;
+    });
+  });
+
+  atualizarPlacar();
+}
+
+function atualizarPlacar(){
+  const v = lerValidacao();
+  const feitos = ITENS_VALIDACAO.filter(it => v[it.id]).length;
+  const total = ITENS_VALIDACAO.length;
+  const placar = $('placarValidacao');
+  placar.textContent = `${feitos} de ${total} conferidos` +
+                       (feitos === total ? ' — nenhuma pendência' : '');
+  placar.style.color = feitos === total ? 'var(--ok)' : 'var(--tinta)';
+}
+
+function pintarLinha(it, marcado, quando){
+  if (!it._titulo) return;
+  it._titulo.textContent = it.t + (marcado ? '  \u2713' : '');
+  it._titulo.style.color = marcado ? 'var(--ok)' : 'var(--tinta)';
+  const antiga = it._texto.querySelector('.carimbo');
+  if (antiga) antiga.remove();
+  if (marcado){
+    const d = document.createElement('p');
+    d.className = 'carimbo';
+    d.style.cssText = 'margin:5px 0 0;font-size:12px;color:var(--ok)';
+    d.textContent = 'conferido em ' + new Date(quando).toLocaleString('pt-BR');
+    it._texto.appendChild(d);
+  }
+}
+
+/* Some com os avisos [VALIDAR] da aba "Valor em juízo" conforme você confere. */
+function aplicarMarcadores(){
+  const v = lerValidacao();
+  const todos = ITENS_VALIDACAO.every(it => v[it.id]);
+  document.querySelectorAll('#aba-valor .marcador').forEach(m => {
+    m.style.display = todos ? 'none' : '';
+  });
+  const rodape = document.querySelector('footer.rodape .marcador');
+  if (rodape) rodape.style.display = todos ? 'none' : '';
+}
+
+$('btnLimparValidacao').addEventListener('click', () => {
+  if (!confirm('Desmarcar todas as conferências?')) return;
+  gravarValidacao({});
+  desenharValidacao();
+  aplicarMarcadores();
+});
+
+desenharValidacao();
+aplicarMarcadores();
+
 </script>
 </body>
 </html>

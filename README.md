@@ -110,10 +110,40 @@ As duas se combinam assim: o hash não dispensa a perícia por decreto — ele *
 dúvida razoável se instale**, por oferecer verificação imediata e independente a qualquer
 das partes e ao Juízo.
 
-**Advertência quanto ao alcance:** a Edição n. 281 é de matéria **criminal**. Em causa
-cível ou trabalhista, suas teses valem como argumento persuasivo sobre o padrão técnico —
-não como precedente diretamente aplicável. A ferramenta explicita essa distinção na aba
-"Valor em juízo", e o modelo de petição que ela fornece a declara de modo expresso.
+### Justiça do Trabalho — o fundamento principal
+
+**TST, 2ª Turma**, Rel. Min. Delaide Alves Miranda Arantes — RR 0011041-26.2024.5.18.0121,
+RR 0000379-45.2025.5.18.0128 e RR 0010590-14.2024.5.18.0052, julgados em 01/06/2026:
+
+> "a assinatura foi gerada em plataforma eletrônica, com elementos suficientes para
+> identificar a signatária (nome completo, CPF, e-mail, IP, local e horário da assinatura,
+> além de **'hash' do documento**), o que, na ausência de prova de fraude ou falsidade,
+> confere ao documento a **presunção de veracidade**."
+
+São acórdãos **trabalhistas** que nomeiam o hash entre os elementos que conferem presunção
+de veracidade — e que recusam a leitura literal que exigiria ICP-Brasil, por "privilegiar o
+formalismo em detrimento da busca pela segurança e integridade do processo eletrônico".
+
+### Quando o hash falta
+
+- **STJ, 5ª Turma** — AgRg no RHC 186.138/SP, Rel. Min. Daniela Teixeira, j. 17/12/2024:
+  declarou **inadmissíveis** mensagens de e-mail juntadas sem os respectivos códigos hash.
+- **STJ, 6ª Turma** — AgRg no AREsp 3.109.361/PR, Rel. Min. Antonio Saldanha Palheiro,
+  j. 07/04/2026: a falta de hash **não gera nulidade automática** quando a integridade é
+  assegurada por outros meios técnicos. Divergência entre Turmas a registrar.
+- **STJ, 5ª Turma** — AgRg no AREsp 3.258.001/GO, Rel. Min. Joel Ilan Paciornik,
+  j. 01/10/2026: demonstrada tecnicamente a integridade, **o ônus não se inverte** — quem
+  impugna precisa apontar vício específico. Perícia conforme ABNT NBR ISO/IEC 27037 e 27042.
+
+**Advertência quanto ao alcance:** as teses da Edição n. 281 e os acórdãos do STJ e do STF
+são de matéria **criminal**, e em causa cível ou trabalhista valem como argumento persuasivo
+sobre o padrão técnico. Os acórdãos do TST acima, por serem trabalhistas, não dependem dessa
+ressalva e servem como fundamento principal.
+
+**Procedência das citações:** as Teses 3 e 4 foram conferidas no PDF oficial do STJ. Os
+acórdãos foram levantados pelo advogado em ferramenta de pesquisa e devem ser conferidos na
+base dos tribunais antes do protocolo — a aba **"Validação"** da ferramenta traz a lista
+completa, com os links oficiais e registro da data de cada conferência.
 
 _O periódico consigna não ser repositório oficial de jurisprudência. Confira cada julgado
 na base do tribunal antes de protocolar._
