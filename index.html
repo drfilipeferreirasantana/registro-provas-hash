@@ -442,6 +442,14 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
 <!-- ===================== VALOR EM JUÍZO ===================== -->
 <section id="aba-valor" class="oculto">
 
+  <div class="cartao" id="painelPendencias" style="display:none">
+    <h2 id="tituloPendencias"></h2>
+    <p class="sub" id="subPendencias"></p>
+    <div class="botoes" style="margin-top:4px">
+      <button class="acao" id="btnIrValidar">Abrir a aba Validação</button>
+    </div>
+  </div>
+
   <div class="cartao">
     <h2>O que este instrumento é, e o que não é</h2>
     <p class="sub">Leia antes de usar em juízo. A honestidade desta seção protege a tese.</p>
@@ -858,7 +866,7 @@ respectivos resumos criptográficos.</pre>
     <h2>Limites técnicos, declarados</h2>
     <p style="font-size:14.5px">SHA-256 é a mesma função que sustenta a rede Bitcoin. Não se
        conhece, hoje, meio viável de produzir dois arquivos distintos com o mesmo hash
-       <span class="marcador">[estado da arte em 2026 — reavaliar periodicamente]</span>.
+       <em style="color:var(--tinta-fraca)">(estado da arte em 2026; convém reavaliar de tempos em tempos — não é pendência)</em>.
        Caso isso mude, o que foi registrado antes permanece verificável pelas demais camadas
        (assinatura, registro datado, procedência).</p>
     <p style="font-size:14.5px">O sistema roda inteiro no navegador. Nenhum arquivo é transmitido.
@@ -1759,7 +1767,37 @@ function aplicarMarcadores(){
   });
   const rodape = document.querySelector('footer.rodape .marcador');
   if (rodape) rodape.style.display = todos ? 'none' : '';
+
+  // Painel no topo da fundamentação: diz quantas fontes faltam e leva até lá.
+  // Sem ele, os avisos [VALIDAR] pareciam defeito, e não tarefa.
+  const feitos = ITENS_VALIDACAO.filter(it => v[it.id]).length;
+  const total = ITENS_VALIDACAO.length;
+  const painel = $('painelPendencias');
+  if (!painel) return;
+  painel.style.display = 'block';
+  if (todos){
+    $('tituloPendencias').textContent = 'Fontes conferidas';
+    $('tituloPendencias').style.color = 'var(--ok)';
+    $('subPendencias').textContent =
+      `As ${total} fontes foram conferidas por você em base oficial. ` +
+      'Os avisos de validação foram retirados do texto abaixo.';
+    $('btnIrValidar').textContent = 'Rever as conferências';
+  } else {
+    $('tituloPendencias').textContent =
+      `${feitos} de ${total} fontes conferidas`;
+    $('tituloPendencias').style.color = '';
+    $('subPendencias').textContent =
+      'Os avisos em destaque no texto abaixo marcam o que ainda não foi conferido em fonte ' +
+      'oficial. Não são defeito: são a lista do que depende dos seus olhos, por serem ' +
+      'dispositivos e precedentes que não se citam sem conferência. Cada um leva menos de um ' +
+      'minuto, fica gravado neste aparelho e vale para todos os termos futuros.';
+    $('btnIrValidar').textContent = 'Abrir a aba Validação';
+  }
 }
+
+$('btnIrValidar').addEventListener('click', () => {
+  document.querySelector('.abas button[data-aba="validacao"]').click();
+});
 
 $('btnLimparValidacao').addEventListener('click', () => {
   if (!confirm('Desmarcar todas as conferências?')) return;
