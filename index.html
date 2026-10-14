@@ -486,15 +486,23 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
       <li><strong>Constituição</strong> — art. 5º, LV (contraditório e ampla defesa) e
           art. 5º, LVI (inadmissibilidade das provas ilícitas). Toda a construção abaixo
           retira daqui sua validade.</li>
+      <li><strong>CPC, arts. 5º e 6º</strong> <span class="marcador">[VALIDAR REDAÇÃO]</span> —
+          boa-fé processual e cooperação. Sustentam o dever de lealdade na apresentação da prova,
+          e é deles que se extrai o argumento de extensão ao cível do padrão técnico firmado
+          pelo STJ em matéria penal.</li>
       <li><strong>CPC, art. 369</strong> — faculta às partes todos os meios legais e
           moralmente legítimos de prova, <em>ainda que não especificados no Código</em>.
           É a porta de entrada do instrumento.</li>
       <li><strong>CPC, art. 384</strong> — reserva ao tabelião a ata notarial. Confirma, a
           contrario sensu, que o termo particular ocupa posição distinta e inferior.</li>
-      <li><strong>CPC, art. 411, II</strong> <span class="marcador">[VALIDAR REDAÇÃO]</span> —
-          considera autêntico o documento cuja autoria esteja identificada por meio legal de
-          certificação, <em>inclusive eletrônico</em>. É aqui que a assinatura com certificado
-          ICP-Brasil faz a diferença de patamar.</li>
+      <li><strong>CPC, art. 411, II e III</strong> <span class="marcador">[VALIDAR REDAÇÃO]</span> —
+          o inciso II considera autêntico o documento cuja autoria esteja identificada por meio
+          legal de certificação, <em>inclusive eletrônico</em>: é aqui que a assinatura com
+          certificado ICP-Brasil faz a diferença de patamar. Quanto ao inciso III, atenção —
+          ele trata da <em>ausência de impugnação</em> da parte contra quem o documento foi
+          produzido, e não de "confirmação por outros meios de convicção". A distinção importa:
+          a autenticidade do inciso III decorre do silêncio da parte contrária, não de prova
+          produzida por você. Confira a redação antes de invocá-lo.</li>
       <li><strong>CPC, art. 422, § 1º</strong> <span class="marcador">[VALIDAR REDAÇÃO]</span> —
           fotografias digitais e extraídas da internet fazem prova das imagens que reproduzem;
           <em>se impugnadas</em>, exige-se autenticação eletrônica ou, não sendo possível, perícia.
@@ -508,8 +516,14 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
           o § 2º admite outros meios de comprovação de autoria, quando aceitos pela parte a quem
           se opõe o documento. Note a assimetria: o certificado prova <em>quem</em> assinou;
           o hash prova <em>o que</em> foi assinado. Os dois juntos fecham o cerco.</li>
-      <li><strong>Lei 14.063/2020</strong> <span class="marcador">[VALIDAR]</span> — classifica as
-          assinaturas eletrônicas em simples, avançada e qualificada.</li>
+      <li><strong>Lei 14.063/2020, art. 4º, III</strong> <span class="marcador">[VALIDAR REDAÇÃO]</span> —
+          classifica as assinaturas eletrônicas em simples, avançada e qualificada, sendo a
+          <em>qualificada</em> a que emprega certificado ICP-Brasil. É o patamar do seu
+          certificado, e o mais elevado previsto na lei.</li>
+      <li><strong>Lei 12.965/2014, arts. 10 e 11</strong> <span class="marcador">[VALIDAR REDAÇÃO]</span> —
+          Marco Civil da Internet: guarda e proteção de registros e de dados pessoais e de
+          comunicações. Pertinente quando a prova envolver registros mantidos por provedor,
+          não quando o arquivo vem do próprio aparelho do constituinte.</li>
       <li><strong>CPP, arts. 158-A a 158-F</strong> <span class="marcador">[VALIDAR]</span> —
           disciplina a cadeia de custódia (incluídos pela Lei 13.964/2019). Regime penal; em
           matéria civil e trabalhista vale como <strong>argumento persuasivo</strong> sobre o
@@ -517,18 +531,95 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
     </ul>
 
     <h3 style="font:600 15px var(--sans);margin:22px 0 6px">3. Jurisprudência</h3>
-    <div class="aviso">
-      <strong class="marcador" style="display:inline">[VALIDAR JURISPRUDÊNCIA EM FONTE OFICIAL]</strong>
-      <p style="margin-top:8px">Nenhum precedente foi inserido aqui, e isso é deliberado:
-         julgado citado de memória, sem conferência de vigência e de superação, é passivo —
-         não ativo — numa peça.</p>
-      <p>Antes de invocar, pesquise na base oficial do tribunal competente, sobre:
-         admissibilidade de prova digital autenticada por hash; exigência de ata notarial para
-         conteúdo de internet e de aplicativos de mensagem; valor de captura de tela impugnada;
-         e distribuição do ônus da prova na impugnação de documento eletrônico. Para cada
-         achado, registre tribunal, classe e número, órgão julgador, relator, datas de
-         julgamento e de publicação, e a tese pertinente.</p>
+
+    <div class="aviso bom">
+      <strong>STJ — Jurisprudência em Teses, Edição n. 281</strong>
+      <p>"Direito Penal e Processual Penal em Ambiente Digital III", de 29/05/2026
+         (edição atualizada em 15/05/2026). Duas teses incidem diretamente sobre este sistema.</p>
     </div>
+
+    <p style="font-size:14.5px;margin:18px 0 6px"><strong>Tese 3 — o hash é meio idôneo, e nomeado</strong></p>
+    <blockquote style="margin:0 0 10px;padding:12px 16px;border-left:3px solid var(--marca);
+      background:var(--marca-clara);border-radius:0 var(--raio) var(--raio) 0;font-size:14px">
+      "Para a integridade e auditabilidade da prova digital, é necessária a preservação da cadeia
+      de custódia e a possibilidade de exame técnico independente, o que pode incluir utilização
+      de certificadores específicos como o <strong>algoritmo hash</strong>, em observância ao
+      <strong>princípio da mesmidade</strong>."
+    </blockquote>
+    <p style="font-size:13px;color:var(--tinta-media);margin:0 0 16px">
+      Julgados: AgRg no AgRg no HC 1041340/RS, Rel. Min. Ribeiro Dantas, Quinta Turma,
+      DJEN 23/04/2026; AREsp 2972295/MT, Rel. Min. Reynaldo Soares da Fonseca, Quinta Turma,
+      DJEN 23/09/2025; AgRg no HC 828054/RN, Rel. Min. Joel Ilan Paciornik, Quinta Turma,
+      DJE 29/04/2024. (Informativos n. 811 e 878.)
+    </p>
+
+    <p style="font-size:14.5px;margin:18px 0 6px"><strong>Tese 4 — e o seu reverso, que convém conhecer</strong></p>
+    <blockquote style="margin:0 0 10px;padding:12px 16px;border-left:3px solid var(--alerta);
+      background:var(--alerta-clara);border-radius:0 var(--raio) var(--raio) 0;font-size:14px">
+      "Se houver <strong>dúvida razoável</strong> sobre a integridade e autenticidade da prova
+      digital, é necessária a realização de <strong>exame pericial</strong> para assegurar a
+      confiabilidade do material e o exercício do contraditório."
+    </blockquote>
+    <p style="font-size:13px;color:var(--tinta-media);margin:0 0 16px">
+      Julgados: AgRg no HC 1014212/ES, Rel. Min. Carlos Pires Brandão, Sexta Turma,
+      DJEN 20/02/2026; RHC 235625/SP (decisão monocrática), Rel. Min. Reynaldo Soares da Fonseca,
+      Quinta Turma, publicado em 13/04/2026. (Informativo n. 878.)
+    </p>
+
+    <div class="aviso">
+      <strong>Como as duas teses se combinam — e o erro que isso evita</strong>
+      <p>A Tese 4 <em>não</em> diz que o hash dispensa perícia. Diz que, havendo dúvida razoável,
+         a perícia é necessária.</p>
+      <p>A função do hash, portanto, não é afastar a perícia por decreto: é <strong>impedir que a
+         dúvida razoável se instale</strong>, por oferecer verificação imediata e independente a
+         qualquer das partes e ao Juízo. Onde a conferência é trivial e pública, a dúvida precisa
+         de fundamento concreto para existir.</p>
+      <p>Sustentar em petição que o hash "dispensa prova pericial" é afirmar mais do que a tese
+         autoriza, e convida o contraditório a provar o contrário. O modelo de redação abaixo
+         foi ajustado a essa distinção.</p>
+    </div>
+
+    <div class="aviso ruim">
+      <strong>Advertência indispensável sobre o alcance</strong>
+      <p>A Edição n. 281 é de <strong>Direito Penal e Processual Penal</strong>. Todas as suas dez
+         teses provêm de habeas corpus, recursos em habeas corpus e agravos em matéria criminal,
+         julgados pela Quinta e pela Sexta Turmas.</p>
+      <p>Em causa cível ou trabalhista, elas valem como <strong>argumento persuasivo</strong> sobre
+         o método técnico — não como precedente diretamente aplicável. Apresentá-las como se
+         fossem tese consolidada em matéria cível entrega à parte contrária uma impugnação
+         certeira, pela origem.</p>
+      <p>A forma correta é a transparente: invocar o padrão técnico que o STJ reconheceu em
+         matéria penal e sustentar, com razão, que a exigência de integridade e auditabilidade
+         da prova digital não é menor no processo civil, onde vigoram os mesmos deveres de boa-fé
+         e cooperação. <span class="marcador">[PESQUISAR precedente cível ou trabalhista
+         específico, para reforço]</span></p>
+    </div>
+
+    <div class="aviso">
+      <strong>O termo que vale decorar: <em>princípio da mesmidade</em></strong>
+      <p>Aparece na própria Tese 3. Designa a exigência de que a prova examinada em juízo seja
+         <em>a mesma</em> colhida na origem — não uma cópia de procedência incerta.</p>
+      <p>É exatamente o que o hash demonstra, e por isso é o vocabulário mais preciso para a
+         petição: o resumo criptográfico é o que torna a mesmidade <strong>verificável</strong>,
+         em vez de meramente afirmada.</p>
+    </div>
+
+    <div class="aviso ruim">
+      <strong>Citação não confirmada</strong>
+      <p>O <strong>RHC 143.169/RJ</strong>, que constava da compilação de origem, <strong>não
+         figura</strong> entre os julgados da Edição n. 281. Pode existir e ser pertinente, mas
+         não foi possível conferi-lo em fonte oficial a partir do material disponível.</p>
+      <p><span class="marcador">[VALIDAR EM FONTE OFICIAL ANTES DE CITAR]</span> — ou simplesmente
+         suprimi-lo: as Teses 3 e 4, com os julgados acima, já sustentam a tese com folga, e cada
+         citação não conferida é um flanco aberto.</p>
+    </div>
+
+    <p style="font-size:13px;color:var(--tinta-fraca);margin:16px 0 0">
+      Fonte: STJ, <em>Jurisprudência em Teses</em>, Edição n. 281, Brasília, 29 de maio de 2026
+      (atualizada em 15/05/2026), disponível em scon.stj.jus.br/SCON/jt/. O próprio periódico
+      consigna não ser repositório oficial de jurisprudência: antes de protocolar, confira cada
+      julgado na base do tribunal.
+    </p>
   </div>
 
   <div class="cartao">
@@ -602,15 +693,28 @@ e os respectivos resumos criptográficos foram publicados, em [DATA], em registr
 de acesso público, sob o código de verificação [CODIGO], disponível em
 [ENDERECO], onde Vossa Excelência poderá conferi-los de imediato.
 
+A providência atende, de forma deliberada, ao padrão técnico que o Superior
+Tribunal de Justiça reconheceu como idôneo à preservação da cadeia de custódia
+da prova digital, ao consignar que a integridade e a auditabilidade "pode[m]
+incluir utilização de certificadores específicos como o algoritmo hash, em
+observância ao princípio da mesmidade" (STJ, Jurisprudência em Teses, Edição
+n. 281, tese 3). Registre-se que tal entendimento se firmou em matéria criminal,
+sendo aqui invocado como parâmetro técnico e argumento persuasivo, porquanto a
+exigência de que a prova examinada seja a mesma colhida na origem não é menor no
+processo civil, regido pelos deveres de boa-fé e cooperação (CPC, arts. 5º e 6º).
+
 Em consequência, a integridade dos arquivos é aferível por qualquer das partes e
 pelo próprio Juízo, por simples recálculo da função: identidade de hash
 demonstra que o arquivo não sofreu alteração desde a data do registro;
 divergência de um único bit produziria resumo inteiramente distinto.
 
 Requer-se, assim, o recebimento dos documentos nos termos do art. 369 do Código
-de Processo Civil, consignando-se que, na hipótese de impugnação específica à
-autenticidade (CPC, art. 422, § 1º), os elementos acima já fornecem o substrato
-técnico necessário à verificação, dispensando prova pericial.</pre>
+de Processo Civil, consignando-se que a verificabilidade imediata e independente
+ora proporcionada esvazia, de antemão, a dúvida razoável que autorizaria a
+realização de exame pericial (CPC, art. 422, § 1º), sem prejuízo de, caso
+sobrevenha impugnação específica e fundamentada, encontrarem-se já disponíveis os
+elementos técnicos necessários à perícia — os originais, os metadados e os
+respectivos resumos criptográficos.</pre>
     <div class="botoes">
       <button class="secund" id="btnCopiarModelo">Copiar modelo</button>
     </div>
