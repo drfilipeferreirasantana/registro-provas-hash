@@ -224,10 +224,64 @@ footer.rodape{border-top:1px solid var(--linha);margin-top:30px;padding-top:18px
       <p class="dica">Descreva o conteúdo e o período. Evite juízo de valor: o termo constata, não conclui.</p>
     </div>
     <div class="campo">
-      <label for="procedencia">Procedência — quem entregou, como e quando <span class="req">*</span></label>
+      <label for="origemAparelho">Fonte de onde a prova foi extraída <span class="req">*</span></label>
+      <input type="text" id="origemAparelho" placeholder="Ex.: iPhone 13, IMEI [INFORMAR], linha (27) 9xxxx-xxxx, de uso pessoal do constituinte">
+      <p class="dica">Identifique o aparelho, a conta ou o sistema. É o primeiro elo da cadeia.</p>
+    </div>
+    <div class="dupla">
+      <div class="campo">
+        <label for="formaExtracao">Forma de extração <span class="req">*</span></label>
+        <select id="formaExtracao">
+          <option value="">selecione</option>
+          <option>Exportação pelo próprio aplicativo, sem edição</option>
+          <option>Captura de tela feita no aparelho de origem</option>
+          <option>Cópia direta de pasta do aparelho para o computador</option>
+          <option>Download a partir de conta do próprio titular</option>
+          <option>Gravação de áudio ou vídeo pelo próprio titular</option>
+          <option>Encaminhamento recebido de terceiro</option>
+          <option>Extração por perito ou técnico</option>
+          <option>Outra — descrever abaixo</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="quemEntregou">Quem apresentou, e em que qualidade <span class="req">*</span></label>
+        <input type="text" id="quemEntregou" placeholder="Ex.: o próprio constituinte, titular da linha">
+      </div>
+    </div>
+    <div class="dupla">
+      <div class="campo">
+        <label for="identificadores">Identificadores do aparelho</label>
+        <input type="text" id="identificadores" placeholder="Ex.: IMEI 00.000000.000000-0; nº de série [INFORMAR]; sem danos aparentes">
+        <p class="dica">A ISO 27037 pede série, marca, modelo, fabricante e eventuais danos físicos.</p>
+      </div>
+      <div class="campo">
+        <label for="relogio">Configuração de relógio</label>
+        <input type="text" id="relogio" placeholder="Ex.: aparelho e computador em UTC-03:00, sem divergência aparente">
+        <p class="dica">A norma manda documentar o ajuste de tempo e anotar divergências — é o que
+           permite confrontar a data do metadado com a dos fatos.</p>
+      </div>
+    </div>
+    <div class="campo">
+      <label for="alteracoes">Alterações inevitáveis, se houve</label>
+      <textarea id="alteracoes" style="min-height:58px" placeholder="Deixe em branco se nenhuma. Havendo, descreva o que foi alterado, por quem e por quê — a ISO 27037 exige o registro com justificativa."></textarea>
+    </div>
+    <div class="dupla">
+      <div class="campo">
+        <label for="presentes">Quem estava presente na coleta</label>
+        <input type="text" id="presentes" placeholder="Ex.: o constituinte e o advogado subscritor">
+      </div>
+      <div class="campo">
+        <label for="guarda">Onde o original fica guardado</label>
+        <input type="text" id="guarda" placeholder="Ex.: no aparelho de origem e em cópia no escritório">
+      </div>
+    </div>
+    <div class="campo">
+      <label for="procedencia">Narrativa da procedência <span class="req">*</span></label>
       <textarea id="procedencia" placeholder="Ex.: Arquivos extraídos na presença do constituinte, em 12/10/2026, do aparelho iPhone 13 de uso pessoal dele, linha (27) 9xxxx-xxxx, por exportação direta do aplicativo para este computador, sem edição."></textarea>
-      <p class="dica">Esta é a parte mais atacada pela parte contrária. Registre o aparelho, a forma de extração
-         e quem estava presente. Lacuna aqui vale mais que lacuna no hash.</p>
+      <p class="dica">Complete em texto corrido o que os campos acima não cobrem. Esta é a parte mais
+         atacada pela parte contrária: lacuna aqui pesa mais que lacuna no hash. O STJ exige a
+         preservação da cadeia de custódia e a possibilidade de exame técnico independente
+         (Jurisprudência em Teses n. 281, tese 3).</p>
     </div>
     <div class="dupla">
       <div class="campo">
@@ -980,31 +1034,167 @@ class SHA256 {
 }
 
 
+/**
+ * Leitor de metadados EXIF, direto dos bytes do arquivo.
+ *
+ * Por que importa aqui: o perito e o juízo querem saber de ONDE veio a imagem.
+ * O EXIF de uma foto de celular costuma trazer fabricante, modelo, versão do
+ * sistema e a data em que a imagem foi CRIADA - que é coisa distinta da data em
+ * que o arquivo foi copiado. Quando a data do EXIF confere com o período narrado,
+ * a procedência deixa de ser mera afirmação.
+ *
+ * Lê apenas os primeiros 128 kB: o EXIF vive no começo do arquivo.
+ * Não altera nada - o arquivo original permanece intocado, e seu hash também.
+ */
+
+const TAGS_0TH = {
+  0x010F: 'Fabricante do aparelho',
+  0x0110: 'Modelo do aparelho',
+  0x0131: 'Programa ou sistema',
+  0x0132: 'Data do arquivo (EXIF)',
+  0x0112: 'Orientação',
+  0x013B: 'Autor registrado'
+};
+const TAGS_EXIF = {
+  0x9003: 'Data da captura (original)',
+  0x9004: 'Data da digitalização',
+  0xA002: 'Largura em pixels',
+  0xA003: 'Altura em pixels',
+  0x829A: 'Tempo de exposição',
+  0x920A: 'Distância focal'
+};
+const TAGS_GPS = {
+  0x0001: 'Latitude (referência)', 0x0002: 'Latitude',
+  0x0003: 'Longitude (referência)', 0x0004: 'Longitude'
+};
+
+function lerExif(buf){
+  const d = new DataView(buf.buffer || buf, buf.byteOffset || 0, buf.byteLength ?? buf.length);
+  if (d.byteLength < 4) return null;
+  if (d.getUint16(0) !== 0xFFD8) return null;          // não é JPEG
+
+  // procura o segmento APP1 com assinatura "Exif\0\0"
+  let p = 2;
+  while (p + 4 < d.byteLength) {
+    if (d.getUint8(p) !== 0xFF) break;
+    const marcador = d.getUint8(p + 1);
+    const tam = d.getUint16(p + 2);
+    if (marcador === 0xE1) {
+      if (p + 10 < d.byteLength &&
+          d.getUint32(p + 4) === 0x45786966 && d.getUint16(p + 8) === 0) {
+        return lerTiff(d, p + 10);
+      }
+    }
+    if (marcador === 0xDA) break;                       // começaram os dados da imagem
+    p += 2 + tam;
+  }
+  return null;
+}
+
+function lerTiff(d, base){
+  if (base + 8 > d.byteLength) return null;
+  const ordem = d.getUint16(base);
+  const le = ordem === 0x4949;                          // 'II' = little-endian
+  if (!le && ordem !== 0x4D4D) return null;             // 'MM' = big-endian
+  if (d.getUint16(base + 2, le) !== 42) return null;
+
+  const saida = {};
+  const off0 = d.getUint32(base + 4, le);
+  const ponteiros = lerIfd(d, base, base + off0, le, TAGS_0TH, saida);
+
+  if (ponteiros.exif) lerIfd(d, base, base + ponteiros.exif, le, TAGS_EXIF, saida);
+  if (ponteiros.gps)  lerIfd(d, base, base + ponteiros.gps,  le, TAGS_GPS,  saida);
+
+  return Object.keys(saida).length ? saida : null;
+}
+
+function lerIfd(d, base, pos, le, tabela, saida){
+  const ponteiros = {};
+  if (pos + 2 > d.byteLength) return ponteiros;
+  const n = d.getUint16(pos, le);
+  if (n > 512) return ponteiros;                        // limite de sanidade
+
+  for (let i = 0; i < n; i++){
+    const e = pos + 2 + i * 12;
+    if (e + 12 > d.byteLength) break;
+    const tag = d.getUint16(e, le);
+    const tipo = d.getUint16(e + 2, le);
+    const qtd = d.getUint32(e + 4, le);
+
+    if (tag === 0x8769) { ponteiros.exif = d.getUint32(e + 8, le); continue; }
+    if (tag === 0x8825) { ponteiros.gps  = d.getUint32(e + 8, le); continue; }
+
+    const nome = tabela[tag];
+    if (!nome) continue;
+
+    const tamUnidade = {1:1, 2:1, 3:2, 4:4, 5:8, 7:1, 9:4, 10:8}[tipo];
+    if (!tamUnidade) continue;
+    const total = tamUnidade * qtd;
+    const dados = total <= 4 ? e + 8 : base + d.getUint32(e + 8, le);
+    if (dados < 0 || dados + total > d.byteLength) continue;
+
+    let v = null;
+    if (tipo === 2) {                                   // texto
+      let s = '';
+      for (let k = 0; k < qtd; k++){
+        const c = d.getUint8(dados + k);
+        if (c === 0) break;
+        s += String.fromCharCode(c);
+      }
+      v = s.trim();
+    } else if (tipo === 3) {
+      v = String(d.getUint16(dados, le));
+    } else if (tipo === 4) {
+      v = String(d.getUint32(dados, le));
+    } else if (tipo === 5) {                            // racional: usado em GPS
+      const partes = [];
+      for (let k = 0; k < Math.min(qtd, 3); k++){
+        const num = d.getUint32(dados + k * 8, le);
+        const den = d.getUint32(dados + k * 8 + 4, le);
+        partes.push(den ? (num / den) : 0);
+      }
+      v = qtd === 3
+        ? `${partes[0]}° ${partes[1]}' ${partes[2].toFixed(2)}"`
+        : String(partes[0]);
+    }
+    if (v !== null && v !== '') saida[nome] = v;
+  }
+  return ponteiros;
+}
+
+
 /* =======================================================================
    Leitura de arquivo em pedacos. Nunca carrega o arquivo inteiro na
    memoria, entao video de 2 GB funciona igual a um print de 80 kB.
    ======================================================================= */
 const PEDACO = 4 * 1024 * 1024;   // 4 MB por vez
 
-function hashDoArquivo(file, aoProgredir){
+function hashDoArquivo(file, aoProgredir, coletarExif){
   return new Promise((resolve, reject) => {
     const s = new SHA256();
     let lido = 0;
+    let exif = null;
     const leitor = new FileReader();
 
     leitor.onerror = () => reject(new Error('falha ao ler ' + file.name));
     leitor.onload = (ev) => {
-      s.update(new Uint8Array(ev.target.result));
+      const bloco = new Uint8Array(ev.target.result);
+      // o EXIF vive no inicio do arquivo: so o primeiro pedaco interessa
+      if (coletarExif && lido === 0){
+        try { exif = lerExif(bloco); } catch(e){ exif = null; }
+      }
+      s.update(bloco);
       lido += ev.target.result.byteLength;
       if (aoProgredir) aoProgredir(lido, file.size);
       if (lido < file.size) proximo();
-      else resolve(s.hex());
+      else resolve(coletarExif ? { hash: s.hex(), exif } : s.hex());
     };
 
     function proximo(){
       leitor.readAsArrayBuffer(file.slice(lido, Math.min(lido + PEDACO, file.size)));
     }
-    if (file.size === 0) resolve(s.hex()); else proximo();
+    if (file.size === 0) resolve(coletarExif ? { hash: s.hex(), exif: null } : s.hex());
+    else proximo();
   });
 }
 
@@ -1091,14 +1281,14 @@ async function receber(lista){
     $('progTexto').textContent = `Calculando ${i+1} de ${arqs.length}: ${f.name}`;
     $('progBarra').style.width = '0%';
     try {
-      const h = await hashDoArquivo(f, (lido, total) => {
+      const r = await hashDoArquivo(f, (lido, total) => {
         $('progBarra').style.width = (total ? (lido/total*100) : 100).toFixed(1) + '%';
-      });
+      }, true);
       estado.arquivos.push({
         nome: f.name, tamanho: f.size,
         tipo: f.type || 'não informado pelo sistema',
         modificado: f.lastModified ? new Date(f.lastModified).toISOString() : null,
-        hash: h
+        hash: r.hash, exif: r.exif
       });
     } catch (err) {
       $('progTexto').textContent = 'Erro: ' + err.message;
@@ -1130,6 +1320,22 @@ function desenharArquivos(){
     divM.textContent = tamanhoLegivel(a.tamanho) + ' · ' + a.tipo;
     tdNome.append(divN, divM);
 
+    if (a.exif){
+      const ex = document.createElement('div');
+      ex.className = 'metaarq';
+      ex.style.cssText = 'margin-top:5px;padding:6px 8px;background:var(--marca-clara);' +
+                         'border-radius:4px;color:var(--marca);line-height:1.5';
+      const resumo = [];
+      if (a.exif['Fabricante do aparelho'] || a.exif['Modelo do aparelho'])
+        resumo.push([a.exif['Fabricante do aparelho'], a.exif['Modelo do aparelho']]
+                    .filter(Boolean).join(' '));
+      if (a.exif['Data da captura (original)'])
+        resumo.push('capturada em ' + a.exif['Data da captura (original)']);
+      if (a.exif['Latitude']) resumo.push('com coordenadas');
+      ex.textContent = 'metadados: ' + (resumo.join(' · ') || Object.keys(a.exif).length + ' campos');
+      tdNome.appendChild(ex);
+    }
+
     const tdH = document.createElement('td');
     tdH.className = 'hashcel'; tdH.textContent = a.hash;
 
@@ -1151,10 +1357,14 @@ function desenharArquivos(){
 function revisarBotao(){
   const ok = estado.arquivos.length > 0 && $('advNome').value.trim() &&
              $('advOab').value.trim() && $('cliNome').value.trim() &&
-             $('objeto').value.trim() && $('procedencia').value.trim();
+             $('objeto').value.trim() && $('procedencia').value.trim() &&
+             $('origemAparelho').value.trim() && $('formaExtracao').value &&
+             $('quemEntregou').value.trim();
   $('btnGerar').disabled = !ok;
 }
-['cliNome','objeto','procedencia'].forEach(c => $(c).addEventListener('input', revisarBotao));
+['cliNome','objeto','procedencia','origemAparelho','quemEntregou']
+  .forEach(c => $(c).addEventListener('input', revisarBotao));
+$('formaExtracao').addEventListener('change', revisarBotao);
 
 /* ---------- lavratura do termo ---------- */
 function dataHoraBR(d){
@@ -1173,11 +1383,22 @@ $('btnGerar').addEventListener('click', () => {
   const codigo = codigoDeVerificacao(raiz);
 
   const v = id => $(id).value.trim();
-  const linhasArq = estado.arquivos.map((a, i) =>
+  const linhasArq = estado.arquivos.map((a, i) => {
+    let bloco =
 `  ${String(i+1).padStart(2,'0')}. ${a.nome}
+      identificador: ${codigo}-${String(i+1).padStart(3,'0')}
       tamanho ...: ${a.tamanho} bytes (${tamanhoLegivel(a.tamanho)})
       tipo ......: ${a.tipo}
-      SHA-256 ...: ${a.hash}`).join('\n\n');
+      SHA-256 ...: ${a.hash}`;
+    if (a.modificado) bloco += `\n      modificado : ${a.modificado} (relógio do sistema de origem)`;
+    if (a.exif){
+      bloco += '\n      metadados incorporados ao arquivo (EXIF), lidos sem alterá-lo:';
+      for (const [k, v] of Object.entries(a.exif)) {
+        bloco += `\n        - ${k}: ${v}`;
+      }
+    }
+    return bloco;
+  }).join('\n\n');
 
   const proc = v('procNum')
     ? `Processo n. ${v('procNum')}${v('procVara') ? ', ' + v('procVara') : ''}${v('procTrib') ? ', ' + v('procTrib') : ''}.`
@@ -1206,12 +1427,29 @@ ${v('objeto')}
 
 ${v('dtFato') ? 'Data dos fatos registrados: ' + v('dtFato') + '\n' : ''}${v('dtColeta') ? 'Data da coleta: ' + v('dtColeta').split('-').reverse().join('/') + '\n' : ''}
 =============================================================================
-IV - PROCEDÊNCIA E FORMA DE OBTENÇÃO
+IV - CADEIA DE CUSTÓDIA
 =============================================================================
+Conteúdo conforme o mínimo previsto na ABNT NBR ISO/IEC 27037:2013, item 2.1.
+
+Identificador único .: ${codigo} (os arquivos recebem ${codigo}-001 em diante)
+Fonte de origem .....: ${v('origemAparelho') || '[INFORMAR]'}
+Identificadores .....: ${v('identificadores') || '[INFORMAR série, marca, modelo, danos]'}
+Forma de extração ...: ${v('formaExtracao') || '[INFORMAR]'}
+Apresentada por .....: ${v('quemEntregou') || '[INFORMAR]'}
+Presentes na coleta .: ${v('presentes') || '[INFORMAR]'}
+Acesso e manuseio ...: o subscritor, no ato da coleta e da lavratura
+Data, hora e local ..: ${dataHoraBR(agora)} (${fusoLocal(agora)})${v('presentes') ? '' : ''}
+Guarda do original ..: ${v('guarda') || '[INFORMAR]'}
+Configuração de tempo: ${v('relogio') || '[INFORMAR ajuste de relógio e eventual divergência]'}
+Alterações ..........: ${v('alteracoes') || 'nenhuma alteração foi introduzida'}
+
+Narrativa:
 ${v('procedencia')}
 
 Declara o responsável que os arquivos foram preservados tal como recebidos,
-sem edição, recorte, recompressão ou alteração de qualquer natureza.
+sem edição, recorte, recompressão ou alteração de qualquer natureza; que o
+manuseio do original foi reduzido ao mínimo necessário; e que os originais
+permanecem disponíveis para exame técnico independente.
 
 =============================================================================
 V - ARQUIVOS PRESERVADOS E RESPECTIVAS IMPRESSÕES DIGITAIS
@@ -1254,7 +1492,80 @@ inteiramente distinto.
       abra este mesmo sistema e use a aba "Verificar prova".
 
 =============================================================================
-IX - NATUREZA E LIMITES DESTE TERMO
+IX - METODOLOGIA E APTIDÃO PARA PERÍCIA
+=============================================================================
+Função criptográfica: SHA-256, conforme FIPS 180-4 (NIST). Função de resumo de
+uso corrente em perícia digital, para a qual não se conhece, no estado atual da
+técnica, meio viável de produzir dois arquivos distintos com resultado idêntico.
+
+Cálculo: realizado integralmente no equipamento do subscritor, sem transmissão
+dos arquivos a terceiros, por leitura sequencial que não modifica o original.
+
+PARÂMETRO NORMATIVO
+  ABNT NBR ISO/IEC 27037:2013 - identificação, coleta, aquisição e preservação
+  de evidência digital.
+  ABNT NBR ISO/IEC 27042:2015 - análise e interpretação de evidência digital.
+  Metodologia acolhida pelo Superior Tribunal de Justiça no AgRg no AREsp
+  3.258.001/GO. [CONFERIR INTEIRO TEOR]
+
+ATENDIMENTO AOS QUATRO ASPECTOS DO ITEM 1.1 DA ISO 27037
+
+  Auditabilidade - o método está integralmente descrito neste termo: função
+  empregada, forma de cálculo, origem, manuseio e guarda. Permite avaliar se o
+  procedimento foi adequadamente seguido.
+
+  Repetibilidade - o mesmo resultado se obtém repetindo o cálculo sobre o mesmo
+  arquivo, com o mesmo instrumento, a qualquer tempo.
+
+  Reprodutibilidade - o mesmo resultado se obtém com instrumentos distintos. A
+  própria norma indica, como exemplo deste aspecto, a comparação de resumos de
+  hash. Qualquer ferramenta que implemente SHA-256 reproduz os valores do item
+  V, inclusive 'sha256sum' em Linux ou macOS e 'Get-FileHash' no Windows.
+
+  Justificabilidade - preservou-se por resumo criptográfico, e não por simples
+  juntada, porque é o meio que permite a terceiro verificar a integridade sem
+  depender da palavra de quem apresenta a prova.
+
+PILARES DO ITEM 1 DA ISO 27037
+
+  Relevância ... o objeto consta do item III.
+  Confiabilidade  demonstrada pelos resumos do item V e pela cadeia do item IV.
+  Suficiência .. os originais e os metadados permanecem disponíveis ao exame.
+
+APTIDÃO PARA EXAME PERICIAL
+  Os originais permanecem íntegros e disponíveis; seus resumos constam do item
+  V; os metadados incorporados foram transcritos sem alteração. Tais elementos
+  bastam para que perito nomeado reproduza o cálculo e ateste, ou refute, a
+  integridade - o exame técnico independente de que trata a tese 3 da Edição
+  n. 281 da Jurisprudência em Teses do STJ.
+
+QUESITOS SUGERIDOS, NA HIPÓTESE DE PERÍCIA
+
+  1. Queira o Sr. Perito recalcular o resumo criptográfico (SHA-256) de cada
+     arquivo juntado e informar se coincide com o declarado no item V deste
+     termo.
+  2. Em caso de coincidência, queira esclarecer se é tecnicamente possível que
+     o arquivo tenha sofrido qualquer alteração, ainda que de um único bit,
+     após a data da lavratura.
+  3. Queira informar se os metadados incorporados aos arquivos apresentam
+     indício de edição, recompressão ou manipulação.
+  4. Queira informar se a data de captura constante dos metadados é compatível
+     com o período narrado no item III.
+  5. Queira informar se o aparelho ou sistema indicado no item IV é compatível
+     com os metadados encontrados.
+  6. Queira esclarecer se a metodologia empregada na preservação atende aos
+     parâmetros das normas ABNT NBR ISO/IEC 27037 e 27042, em especial quanto
+     à auditabilidade, à repetibilidade e à reprodutibilidade.
+  7. Queira informar se o registro de cadeia de custódia constante do item IV
+     contém os elementos mínimos do item 2.1 da ABNT NBR ISO/IEC 27037.
+  8. Queira informar se há divergência entre a configuração de relógio
+     declarada no item IV e as datas constantes dos metadados.
+  9. Havendo divergência em qualquer dos quesitos anteriores, queira indicar,
+     de modo específico, em que consiste e qual sua repercussão sobre a
+     confiabilidade do material.
+
+=============================================================================
+X - NATUREZA E LIMITES DESTE TERMO
 =============================================================================
 Este é instrumento PARTICULAR. Não possui fé pública e NÃO substitui a ata
 notarial de que trata o art. 384 do Código de Processo Civil, privativa de
@@ -1267,7 +1578,7 @@ O que este termo NÃO demonstra: a veracidade intrínseca do conteúdo dos
 arquivos, que se apura pelo conjunto da prova.
 
 =============================================================================
-X - ASSINATURA
+XI - ASSINATURA
 =============================================================================
 Recomenda-se subscrever este termo com certificado digital ICP-Brasil, do que
 decorre presunção de veracidade quanto ao signatário, nos termos do art. 10,
@@ -1290,8 +1601,13 @@ ${v('advOab')}
     quantidade_de_arquivos: estado.arquivos.length,
     hashes: estado.arquivos.map((a, i) => ({
       ordem: i + 1, sha256: a.hash, bytes: a.tamanho,
-      tipo: a.tipo === 'não informado pelo sistema' ? null : a.tipo
+      tipo: a.tipo === 'não informado pelo sistema' ? null : a.tipo,
+      // apenas se HÁ metadados, nunca o seu conteúdo: dizer "este arquivo tem EXIF"
+      // não revela nada, mas permite ao perito saber o que esperar
+      possui_metadados_exif: !!a.exif
     })),
+    metodologia: 'SHA-256 (FIPS 180-4); cálculo local, sem transmissão; ' +
+                 'parâmetro técnico ABNT NBR ISO/IEC 27037:2013 e 27042:2015',
     observacao: 'Registro de integridade. Contém apenas resumos criptográficos e datas. ' +
                 'Não contém nome de pessoa, nome de arquivo, número de processo nem qualquer ' +
                 'dado pessoal, em observância ao sigilo profissional e à LGPD.'
@@ -1353,7 +1669,9 @@ $('btnImprimir').addEventListener('click', () => {
 $('btnLimpar').addEventListener('click', () => {
   if (!confirm('Apagar os arquivos e os dados do caso? Os seus dados de advogado permanecem.')) return;
   estado.arquivos = []; estado.termo = null;
-  ['cliNome','procNum','procVara','procTrib','objeto','procedencia','dtFato','dtColeta']
+  ['cliNome','procNum','procVara','procTrib','objeto','procedencia','dtFato','dtColeta',
+   'origemAparelho','formaExtracao','quemEntregou','presentes','guarda',
+   'identificadores','relogio','alteracoes']
     .forEach(c => $(c).value = '');
   $('resultado').classList.add('oculto');
   desenharArquivos();

@@ -150,6 +150,35 @@ na base do tribunal antes de protocolar._
 
 ---
 
+## Conformidade com a norma técnica
+
+O termo é estruturado sobre a **ABNT NBR ISO/IEC 27037:2013** (identificação, coleta,
+aquisição e preservação de evidência digital) e a **ABNT NBR ISO/IEC 27042:2015** (análise
+e interpretação) — metodologia acolhida pelo STJ no AgRg no AREsp 3.258.001/GO.
+
+**Os quatro aspectos do item 1.1 da 27037**, declarados expressamente no termo:
+
+| Aspecto | Como o termo atende |
+|---|---|
+| **Auditabilidade** | Método integralmente descrito: função, forma de cálculo, origem, manuseio e guarda |
+| **Repetibilidade** | Mesmo resultado, mesmo instrumento, a qualquer tempo |
+| **Reprodutibilidade** | Mesmo resultado com instrumentos distintos — a própria norma dá como exemplo deste aspecto a comparação de resumos de hash |
+| **Justificabilidade** | Declara por que se preservou por hash, e não por simples juntada |
+
+**Cadeia de custódia** conforme o conteúdo mínimo do item 2.1: identificador único,
+quem acessou e quando, local, guarda, configuração de relógio e registro de eventuais
+alterações inevitáveis com justificativa.
+
+**Metadados forenses:** a ferramenta lê o EXIF das imagens — fabricante, modelo, sistema,
+data de captura e coordenadas, quando presentes — sem alterar o arquivo, e os transcreve
+no termo. É o que permite confrontar a data da captura com o período narrado.
+
+**Quesitos para perícia:** o termo já traz nove quesitos prontos, cobrindo recálculo dos
+resumos, indícios de edição, compatibilidade das datas e do aparelho, conformidade
+metodológica e divergências de relógio.
+
+---
+
 ## Privacidade da ferramenta
 
 Roda inteiramente no navegador. Nenhum arquivo é transmitido. Funciona offline —
